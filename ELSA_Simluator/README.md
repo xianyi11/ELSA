@@ -3,9 +3,7 @@
 ## Introduction
 
 This project provides an end-to-end, cycle-level simulator for ELSA.
-
-The simulator supports two execution modes.  
-This document describes the **slow path** workflow.
+The simulator supports two execution modes:
 
 ## Slow Path
 
