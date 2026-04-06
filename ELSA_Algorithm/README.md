@@ -11,14 +11,14 @@ The corresponding checkpoints are provided at the following link:
 
 ## Reported Accuracy
 
-| Model | Dataset | ANN Accuracy | SNN Accuracy | Elastic SNN Accuracy |
-|------|---------|--------------|--------------|----------------------|
-| VGG16 | CIFAR-10 | 91.57 | 91.48 | N/A |
-| VGG16 | CIFAR-100 | 73.94 | 73.85 | N/A |
-| ResNet18 | ImageNet | 67.611 | 67.537 | 67.27 (confidence threshold=0.3) |
-| ResNet34 | ImageNet | 71.512 | 71.558 | TBD |
-| ResNet50 | ImageNet | 74.776 | 74.776 | TBD |
-| ViT | ImageNet | 78.398 | 78.66 | TBD |
+| Model | Dataset | ANN Accuracy | SNN Accuracy | Elastic SNN Accuracy | Latency Reduction |
+|------|---------|--------------|--------------|----------------------|----------------------|
+| VGG16 | CIFAR-10 | 91.57 | 91.48 | N/A |N/A |
+| VGG16 | CIFAR-100 | 73.94 | 73.85 | N/A |N/A |
+| ResNet18 | ImageNet | 67.611 | 67.537 | 67.27 (confidence threshold=0.3) | 14.76% |
+| ResNet34 | ImageNet | 71.512 | 71.558 | 68.36 (confidence threshold=0.3) | 23.31% |
+| ResNet50 | ImageNet | 74.776 | 74.776 | 73.40 (confidence threshold=0.3) | 19.90% |
+| ViT | ImageNet | 78.398 | 78.66 | TBD | TBD |
 
 ## 1. VGG16
 
