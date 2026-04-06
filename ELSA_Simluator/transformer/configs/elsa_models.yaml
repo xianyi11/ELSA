@@ -1,0 +1,14 @@
+# Default paths for run_elsa.py --model (paths under transformer root unless absolute).
+# Override any field via CLI. `data_subdir` is relative to transformer root.
+
+models:
+  vit_small:
+    datapath: "/home/kang_you/SpikeZIP_transformer/output/T-SNN_vit_small_patch16_imagenet_relu_SNN_act14_weightbit4/output_bin_snn_vit_small_patch16_w4_a3_T32/"
+    data_subdir: "datas/ViT_small_data"
+    connection: "ViT_Connection_Last.pth"
+    mapping: "Final_MeshMapping.pth"
+    occupy: "TranOccupy.pth"
+    default_time_step: 32
+    default_calculate_info: "calculateInfoConv_vitsmall_no_CRAM_baseline.pth"
+    runner_module: "Compilers.VSACompiler"
+    runner_callable: "run_vit_small_vary_t"

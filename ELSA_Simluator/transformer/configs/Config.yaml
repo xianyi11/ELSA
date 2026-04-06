@@ -1,0 +1,131 @@
+Word: 4
+frequency: 200
+NOC:
+  topology: Mesh
+  meshHeight: 6
+  meshWidth: 6
+  ingressRouter: 4
+  egressRouter: 1
+  flitSize: 256
+  virtualChannelNum: 4
+  NoCLinkDataWidth: 512
+  checkSize: 8
+  creditCheckSize: 4
+  flitBufferNumPerVC: 4
+  rowColumnBitWidth: 12
+TILE:
+  PENum: 4
+  SRAMTotalNum: 4000
+  Im2ColUnit: 
+    fEnergy: 1.3675E-13
+    leakage: 3.686E-7
+    area: 4.87494E-4
+  VSAOrderController:
+    fEnergy: 6.255E-14
+    leakage: 6.437E-8
+    area: 7.2828E-5
+  VSAUpdateArbiter:
+    fEnergy: 1.67E-13
+    leakage: 2.171E-7
+    area: 2.40786E-4
+  FlitGenerator:
+    fEnergy: 1.145E-12
+    leakage: 7.264E-7
+    area: 1.075158e-3
+  FlitCombiner:
+    fEnergy: 1.166E-13
+    leakage: 1.198E-7
+    area: 1.5838E-4
+    height: 512
+    inoutWidth: 16 # one word is 8 bit
+    mux: 4
+    temporature: 25
+    voltage: 0.9
+    periphery_vt: hvt  
+processElement:
+  head: 2
+  parallelism: 16
+  input:
+    N: 64
+    K: 576
+    M: 3136
+  tile:
+    tileN: 16
+  weightBuffer:
+    height: 64
+    inoutWidth: 16
+    mux: 4
+    temporature: 25
+    voltage: 0.9
+    periphery_vt: hvt  
+  inputBuffer:
+    readEnergy: 0
+    writeEnergy: 0
+    queueDepth: 64
+    inoutWidth: 4
+    queueNum: 16
+    mux: 4
+    temporature: 25
+    voltage: 0.9
+    periphery_vt: hvt  
+  membrane:
+    height: 64
+    inoutWidth: 16
+    mux: 4
+    temporature: 25
+    voltage: 0.9
+    periphery_vt: hvt  
+  spikeTracer:
+    height: 64
+    inoutWidth: 16
+    mux: 4
+    temporature: 25
+    voltage: 0.9
+    periphery_vt: hvt  
+  accumulator:
+    fEnergy: 3.24E-12
+    leakage: 2.77E-06
+    area: 4.5158E-3
+    adderNum: 240
+  adderTree:
+    fEnergy: 3.5648E-11
+    leakage: 2.1888E-5
+    area: 3.3997E-2
+    adderNum: 240
+  fireComponent:
+    fEnergy: 2.9185E-12
+    leakage: 3.848E-6
+    SMax: 7
+    SMin: -8
+    M: 107
+    N: 10
+    area: 4.88742e-3
+  spikeEncoder:
+    fEnergy: 0.0
+router:
+  flitCycle: 8
+  switchCrossbar: 
+    fEnergy: 1.633e-12
+    leakage: 9.27E-07
+    area: 1.690416E-3
+  RoutingEngine:
+    fEnergy: 7.7785E-15
+    leakage: 7.359E-9
+    area: 1.0458E-5
+  softmaxFunction:
+    fEnergy: 8.6488E-13
+    leakage: 272.1618E-9
+    area: 357.588E-6
+    parallelism: 128
+  layerNormFunction:
+    fEnergy: 3.477E-12
+    leakage: 669.49E-9
+    area: 885.654E-6
+    parallelism: 128
+  AdditionFunction:
+    fEnergy: 3.24E-12
+    leakage: 2.77E-06
+    area: 4.5158E-3
+    parallelism: 128
+
+

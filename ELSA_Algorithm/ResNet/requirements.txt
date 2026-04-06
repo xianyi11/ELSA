@@ -1,0 +1,7 @@
+tqdm
+numpy
+pandas
+torch
+torchaudio
+matplotlib
+kaggle==1.5.6

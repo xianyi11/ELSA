@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -euo pipefail
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+cd "$ROOT"
+OUT="${ROOT}/output"
+mkdir -p "$OUT"
+
+NCCL_P2P_DISABLE=1 OMP_NUM_THREADS=1 CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6 python -m torch.distributed.launch --nproc_per_node=7 --use_env --master_port='29503' main_finetune.py \
+    --accum_iter 4 \
+    --batch_size 1 \
+    --model vit_small_patch16 \
+    --finetune /home/kang_you/model_pool/QANN-vit-small-14level.pth \
+    --resume /home/kang_you/model_pool/QANN-vit-small-14level.pth \
+    --epochs 100 --elastic --confidence_thr 0.8 \
+    --blr 3.536e-4 --layer_decay 0.65 \
+    --weight_decay 0.05 --drop_path 0.1 --drop_rate 0.0 --mixup 0.8 --cutmix 1.0 --reprob 0.25 \
+    --dist_eval --data_path /data/ImageNet --output_dir "$OUT" --log_dir "$OUT" \
+    --mode "SNN" --act_layer relu --eval --time_step 32 --encoding_type rate --level 14 --record_inout --weight_quantization_bit 4 --define_params --mean 0.5 0.5 0.5 --std 0.5 0.5 0.5

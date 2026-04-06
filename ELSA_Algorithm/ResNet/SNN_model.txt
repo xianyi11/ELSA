@@ -1,0 +1,1123 @@
+IntegerSNNWarapperElastic(
+  (model): DistributedDataParallel(
+    (module): ResNet(
+      (conv1): SpikeInferConv2dFuseBN(
+        3, 64, kernel_size=(7, 7), stride=(2, 2), padding=(3, 3)
+        (m): QuanInferConv2dFuseBN(
+          3, 64, kernel_size=(7, 7), stride=(2, 2), padding=(3, 3)
+          (m): QuanConv2dFuseBN(
+            3, 64, kernel_size=(7, 7), stride=(2, 2), padding=(3, 3), bias=False
+            (quan_w_fn): LsqQuan(thd_pos=7, thd_neg=-8, s=0.23540478944778442, per_channel=False)
+            (quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=3.1640968322753906, per_channel=False)
+            (quan_a_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=0.5027874112129211, per_channel=False)
+          )
+        )
+        (neuron): STBIFNeuron(pos_max=5, neg_min=0, M=Parameter containing:
+        tensor(153), N=Parameter containing:
+        tensor(12), Add=False)
+      )
+      (bn1): DummyModule()
+      (relu): Identity()
+      (maxpool): SpikeInferAvgPool(
+        (m): QuanInferAvgPool(
+          (m): QuanAvgPool(
+            (m): AvgPool2d(kernel_size=3, stride=2, padding=1)
+            (quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=1.1480258703231812, per_channel=False)
+          )
+          (last_quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=3.1640968322753906, per_channel=False)
+        )
+        (neuron): STBIFNeuron(pos_max=5, neg_min=-4, M=Parameter containing:
+        tensor(157), N=Parameter containing:
+        tensor(9), Add=False)
+      )
+      (layer1): Sequential(
+        (0): Bottleneck(
+          (conv1): SpikeInferConv2dFuseBN(
+            64, 64, kernel_size=(1, 1), stride=(1, 1)
+            (m): QuanInferConv2dFuseBN(
+              64, 64, kernel_size=(1, 1), stride=(1, 1)
+              (m): QuanConv2dFuseBN(
+                64, 64, kernel_size=(1, 1), stride=(1, 1), bias=False
+                (quan_w_fn): LsqQuan(thd_pos=7, thd_neg=-8, s=0.11799221485853195, per_channel=False)
+                (quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=2.142033815383911, per_channel=False)
+                (quan_a_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=1.0, per_channel=False)
+              )
+              (last_quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=1.1480258703231812, per_channel=False)
+            )
+            (neuron): STBIFNeuron(pos_max=5, neg_min=0, M=Parameter containing:
+            tensor(130), N=Parameter containing:
+            tensor(11), Add=False)
+          )
+          (bn1): DummyModule()
+          (relu1): Identity()
+          (conv2): SpikeInferConv2dFuseBN(
+            64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1)
+            (m): QuanInferConv2dFuseBN(
+              64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1)
+              (m): QuanConv2dFuseBN(
+                64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False
+                (quan_w_fn): LsqQuan(thd_pos=7, thd_neg=-8, s=0.014384838752448559, per_channel=False)
+                (quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=1.763674020767212, per_channel=False)
+                (quan_a_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=1.0, per_channel=False)
+              )
+              (last_quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=2.142033815383911, per_channel=False)
+            )
+            (neuron): STBIFNeuron(pos_max=5, neg_min=0, M=Parameter containing:
+            tensor(143), N=Parameter containing:
+            tensor(13), Add=False)
+          )
+          (bn2): DummyModule()
+          (relu2): Identity()
+          (conv3): SpikeInferConv2dFuseBN(
+            64, 256, kernel_size=(1, 1), stride=(1, 1)
+            (m): QuanInferConv2dFuseBN(
+              64, 256, kernel_size=(1, 1), stride=(1, 1)
+              (m): QuanConv2dFuseBN(
+                64, 256, kernel_size=(1, 1), stride=(1, 1), bias=False
+                (quan_w_fn): LsqQuan(thd_pos=7, thd_neg=-8, s=0.04060986638069153, per_channel=False)
+                (quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=1.6110296249389648, per_channel=False)
+                (quan_a_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=1.0, per_channel=False)
+              )
+              (last_quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=1.763674020767212, per_channel=False)
+            )
+            (neuron): STBIFNeuron(pos_max=5, neg_min=-4, M=Parameter containing:
+            tensor(182), N=Parameter containing:
+            tensor(12), Add=False)
+          )
+          (bn3): DummyModule()
+          (relu3): Identity()
+          (downsample): Sequential(
+            (0): SpikeInferConv2dFuseBN(
+              64, 256, kernel_size=(1, 1), stride=(1, 1)
+              (m): QuanInferConv2dFuseBN(
+                64, 256, kernel_size=(1, 1), stride=(1, 1)
+                (m): QuanConv2dFuseBN(
+                  64, 256, kernel_size=(1, 1), stride=(1, 1), bias=False
+                  (quan_w_fn): LsqQuan(thd_pos=7, thd_neg=-8, s=0.12758371233940125, per_channel=False)
+                  (quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=1.7435531616210938, per_channel=False)
+                  (quan_a_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=1.0, per_channel=False)
+                )
+                (last_quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=1.1480258703231812, per_channel=False)
+              )
+              (neuron): STBIFNeuron(pos_max=5, neg_min=-4, M=Parameter containing:
+              tensor(172), N=Parameter containing:
+              tensor(11), Add=False)
+            )
+            (1): DummyModule()
+          )
+          (ResidualAdd): None
+          (relu4): Identity()
+          (spikeResidual): SpikeResidualAddNew(
+            (neuron): STBIFNeuron(pos_max=5, neg_min=0, M=[tensor(213), tensor(231)], N=8, Add=True)
+          )
+        )
+        (1): Bottleneck(
+          (conv1): SpikeInferConv2dFuseBN(
+            256, 64, kernel_size=(1, 1), stride=(1, 1)
+            (m): QuanInferConv2dFuseBN(
+              256, 64, kernel_size=(1, 1), stride=(1, 1)
+              (m): QuanConv2dFuseBN(
+                256, 64, kernel_size=(1, 1), stride=(1, 1), bias=False
+                (quan_w_fn): LsqQuan(thd_pos=7, thd_neg=-8, s=0.045337941497564316, per_channel=False)
+                (quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=2.6733288764953613, per_channel=False)
+                (quan_a_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=1.0, per_channel=False)
+              )
+              (last_quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=1.9347963333129883, per_channel=False)
+            )
+            (neuron): STBIFNeuron(pos_max=5, neg_min=0, M=Parameter containing:
+            tensor(134), N=Parameter containing:
+            tensor(12), Add=False)
+          )
+          (bn1): DummyModule()
+          (relu1): Identity()
+          (conv2): SpikeInferConv2dFuseBN(
+            64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1)
+            (m): QuanInferConv2dFuseBN(
+              64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1)
+              (m): QuanConv2dFuseBN(
+                64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False
+                (quan_w_fn): LsqQuan(thd_pos=7, thd_neg=-8, s=0.024208856746554375, per_channel=False)
+                (quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=2.6636369228363037, per_channel=False)
+                (quan_a_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=1.0, per_channel=False)
+              )
+              (last_quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=2.6733288764953613, per_channel=False)
+            )
+            (neuron): STBIFNeuron(pos_max=5, neg_min=0, M=Parameter containing:
+            tensor(199), N=Parameter containing:
+            tensor(13), Add=False)
+          )
+          (bn2): DummyModule()
+          (relu2): Identity()
+          (conv3): SpikeInferConv2dFuseBN(
+            64, 256, kernel_size=(1, 1), stride=(1, 1)
+            (m): QuanInferConv2dFuseBN(
+              64, 256, kernel_size=(1, 1), stride=(1, 1)
+              (m): QuanConv2dFuseBN(
+                64, 256, kernel_size=(1, 1), stride=(1, 1), bias=False
+                (quan_w_fn): LsqQuan(thd_pos=7, thd_neg=-8, s=0.04423084110021591, per_channel=False)
+                (quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=2.043468952178955, per_channel=False)
+                (quan_a_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=1.0, per_channel=False)
+              )
+              (last_quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=2.6636369228363037, per_channel=False)
+            )
+            (neuron): STBIFNeuron(pos_max=5, neg_min=-4, M=Parameter containing:
+            tensor(236), N=Parameter containing:
+            tensor(12), Add=False)
+          )
+          (bn3): DummyModule()
+          (relu3): Identity()
+          (ResidualAdd): None
+          (relu4): Identity()
+          (spikeResidual): SpikeResidualAddNew(
+            (neuron): STBIFNeuron(pos_max=5, neg_min=0, M=[tensor(240), tensor(228)], N=8, Add=True)
+          )
+        )
+        (2): Bottleneck(
+          (conv1): SpikeInferConv2dFuseBN(
+            256, 64, kernel_size=(1, 1), stride=(1, 1)
+            (m): QuanInferConv2dFuseBN(
+              256, 64, kernel_size=(1, 1), stride=(1, 1)
+              (m): QuanConv2dFuseBN(
+                256, 64, kernel_size=(1, 1), stride=(1, 1), bias=False
+                (quan_w_fn): LsqQuan(thd_pos=7, thd_neg=-8, s=0.03697878122329712, per_channel=False)
+                (quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=2.8590691089630127, per_channel=False)
+                (quan_a_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=1.0, per_channel=False)
+              )
+              (last_quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=2.1754422187805176, per_channel=False)
+            )
+            (neuron): STBIFNeuron(pos_max=5, neg_min=0, M=Parameter containing:
+            tensor(230), N=Parameter containing:
+            tensor(13), Add=False)
+          )
+          (bn1): DummyModule()
+          (relu1): Identity()
+          (conv2): SpikeInferConv2dFuseBN(
+            64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1)
+            (m): QuanInferConv2dFuseBN(
+              64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1)
+              (m): QuanConv2dFuseBN(
+                64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False
+                (quan_w_fn): LsqQuan(thd_pos=7, thd_neg=-8, s=0.018890637904405594, per_channel=False)
+                (quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=2.599177598953247, per_channel=False)
+                (quan_a_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=1.0, per_channel=False)
+              )
+              (last_quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=2.8590691089630127, per_channel=False)
+            )
+            (neuron): STBIFNeuron(pos_max=5, neg_min=0, M=Parameter containing:
+            tensor(170), N=Parameter containing:
+            tensor(13), Add=False)
+          )
+          (bn2): DummyModule()
+          (relu2): Identity()
+          (conv3): SpikeInferConv2dFuseBN(
+            64, 256, kernel_size=(1, 1), stride=(1, 1)
+            (m): QuanInferConv2dFuseBN(
+              64, 256, kernel_size=(1, 1), stride=(1, 1)
+              (m): QuanConv2dFuseBN(
+                64, 256, kernel_size=(1, 1), stride=(1, 1), bias=False
+                (quan_w_fn): LsqQuan(thd_pos=7, thd_neg=-8, s=0.057933155447244644, per_channel=False)
+                (quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=2.349097728729248, per_channel=False)
+                (quan_a_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=1.0, per_channel=False)
+              )
+              (last_quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=2.599177598953247, per_channel=False)
+            )
+            (neuron): STBIFNeuron(pos_max=5, neg_min=-4, M=Parameter containing:
+            tensor(131), N=Parameter containing:
+            tensor(11), Add=False)
+          )
+          (bn3): DummyModule()
+          (relu3): Identity()
+          (ResidualAdd): None
+          (relu4): Identity()
+          (spikeResidual): SpikeResidualAddNew(
+            (neuron): STBIFNeuron(pos_max=5, neg_min=0, M=[tensor(248), tensor(230)], N=8, Add=True)
+          )
+        )
+      )
+      (layer2): Sequential(
+        (0): Bottleneck(
+          (conv1): SpikeInferConv2dFuseBN(
+            256, 128, kernel_size=(1, 1), stride=(1, 1)
+            (m): QuanInferConv2dFuseBN(
+              256, 128, kernel_size=(1, 1), stride=(1, 1)
+              (m): QuanConv2dFuseBN(
+                256, 128, kernel_size=(1, 1), stride=(1, 1), bias=False
+                (quan_w_fn): LsqQuan(thd_pos=7, thd_neg=-8, s=0.04728951305150986, per_channel=False)
+                (quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=3.9224283695220947, per_channel=False)
+                (quan_a_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=1.0, per_channel=False)
+              )
+              (last_quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=2.4220986366271973, per_channel=False)
+            )
+            (neuron): STBIFNeuron(pos_max=5, neg_min=0, M=Parameter containing:
+            tensor(239), N=Parameter containing:
+            tensor(13), Add=False)
+          )
+          (bn1): DummyModule()
+          (relu1): Identity()
+          (conv2): SpikeInferConv2dFuseBN(
+            128, 128, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1)
+            (m): QuanInferConv2dFuseBN(
+              128, 128, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1)
+              (m): QuanConv2dFuseBN(
+                128, 128, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False
+                (quan_w_fn): LsqQuan(thd_pos=7, thd_neg=-8, s=0.015519295819103718, per_channel=False)
+                (quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=3.6327269077301025, per_channel=False)
+                (quan_a_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=1.0, per_channel=False)
+              )
+              (last_quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=3.9224283695220947, per_channel=False)
+            )
+            (neuron): STBIFNeuron(pos_max=5, neg_min=0, M=Parameter containing:
+            tensor(137), N=Parameter containing:
+            tensor(13), Add=False)
+          )
+          (bn2): DummyModule()
+          (relu2): Identity()
+          (conv3): SpikeInferConv2dFuseBN(
+            128, 512, kernel_size=(1, 1), stride=(1, 1)
+            (m): QuanInferConv2dFuseBN(
+              128, 512, kernel_size=(1, 1), stride=(1, 1)
+              (m): QuanConv2dFuseBN(
+                128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False
+                (quan_w_fn): LsqQuan(thd_pos=7, thd_neg=-8, s=0.04685647785663605, per_channel=False)
+                (quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=2.7100648880004883, per_channel=False)
+                (quan_a_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=1.0, per_channel=False)
+              )
+              (last_quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=3.6327269077301025, per_channel=False)
+            )
+            (neuron): STBIFNeuron(pos_max=5, neg_min=-4, M=Parameter containing:
+            tensor(129), N=Parameter containing:
+            tensor(11), Add=False)
+          )
+          (bn3): DummyModule()
+          (relu3): Identity()
+          (downsample): Sequential(
+            (0): SpikeInferConv2dFuseBN(
+              256, 512, kernel_size=(1, 1), stride=(2, 2)
+              (m): QuanInferConv2dFuseBN(
+                256, 512, kernel_size=(1, 1), stride=(2, 2)
+                (m): QuanConv2dFuseBN(
+                  256, 512, kernel_size=(1, 1), stride=(2, 2), bias=False
+                  (quan_w_fn): LsqQuan(thd_pos=7, thd_neg=-8, s=0.043576255440711975, per_channel=False)
+                  (quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=2.7018632888793945, per_channel=False)
+                  (quan_a_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=1.0, per_channel=False)
+                )
+                (last_quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=2.4220986366271973, per_channel=False)
+              )
+              (neuron): STBIFNeuron(pos_max=5, neg_min=-4, M=Parameter containing:
+              tensor(160), N=Parameter containing:
+              tensor(12), Add=False)
+            )
+            (1): DummyModule()
+          )
+          (ResidualAdd): None
+          (relu4): Identity()
+          (spikeResidual): SpikeResidualAddNew(
+            (neuron): STBIFNeuron(pos_max=5, neg_min=0, M=[tensor(230), tensor(229)], N=8, Add=True)
+          )
+        )
+        (1): Bottleneck(
+          (conv1): SpikeInferConv2dFuseBN(
+            512, 128, kernel_size=(1, 1), stride=(1, 1)
+            (m): QuanInferConv2dFuseBN(
+              512, 128, kernel_size=(1, 1), stride=(1, 1)
+              (m): QuanConv2dFuseBN(
+                512, 128, kernel_size=(1, 1), stride=(1, 1), bias=False
+                (quan_w_fn): LsqQuan(thd_pos=7, thd_neg=-8, s=0.016408666968345642, per_channel=False)
+                (quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=2.4822309017181396, per_channel=False)
+                (quan_a_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=1.0, per_channel=False)
+              )
+              (last_quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=3.0140771865844727, per_channel=False)
+            )
+            (neuron): STBIFNeuron(pos_max=5, neg_min=0, M=Parameter containing:
+            tensor(163), N=Parameter containing:
+            tensor(13), Add=False)
+          )
+          (bn1): DummyModule()
+          (relu1): Identity()
+          (conv2): SpikeInferConv2dFuseBN(
+            128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1)
+            (m): QuanInferConv2dFuseBN(
+              128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1)
+              (m): QuanConv2dFuseBN(
+                128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False
+                (quan_w_fn): LsqQuan(thd_pos=7, thd_neg=-8, s=0.021268244832754135, per_channel=False)
+                (quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=2.8958146572113037, per_channel=False)
+                (quan_a_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=1.0, per_channel=False)
+              )
+              (last_quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=2.4822309017181396, per_channel=False)
+            )
+            (neuron): STBIFNeuron(pos_max=5, neg_min=0, M=Parameter containing:
+            tensor(149), N=Parameter containing:
+            tensor(13), Add=False)
+          )
+          (bn2): DummyModule()
+          (relu2): Identity()
+          (conv3): SpikeInferConv2dFuseBN(
+            128, 512, kernel_size=(1, 1), stride=(1, 1)
+            (m): QuanInferConv2dFuseBN(
+              128, 512, kernel_size=(1, 1), stride=(1, 1)
+              (m): QuanConv2dFuseBN(
+                128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False
+                (quan_w_fn): LsqQuan(thd_pos=7, thd_neg=-8, s=0.044667575508356094, per_channel=False)
+                (quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=2.4203333854675293, per_channel=False)
+                (quan_a_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=1.0, per_channel=False)
+              )
+              (last_quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=2.8958146572113037, per_channel=False)
+            )
+            (neuron): STBIFNeuron(pos_max=5, neg_min=-4, M=Parameter containing:
+            tensor(219), N=Parameter containing:
+            tensor(12), Add=False)
+          )
+          (bn3): DummyModule()
+          (relu3): Identity()
+          (ResidualAdd): None
+          (relu4): Identity()
+          (spikeResidual): SpikeResidualAddNew(
+            (neuron): STBIFNeuron(pos_max=5, neg_min=0, M=[tensor(207), tensor(258)], N=8, Add=True)
+          )
+        )
+        (2): Bottleneck(
+          (conv1): SpikeInferConv2dFuseBN(
+            512, 128, kernel_size=(1, 1), stride=(1, 1)
+            (m): QuanInferConv2dFuseBN(
+              512, 128, kernel_size=(1, 1), stride=(1, 1)
+              (m): QuanConv2dFuseBN(
+                512, 128, kernel_size=(1, 1), stride=(1, 1), bias=False
+                (quan_w_fn): LsqQuan(thd_pos=7, thd_neg=-8, s=0.026827264577150345, per_channel=False)
+                (quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=3.062427043914795, per_channel=False)
+                (quan_a_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=1.0, per_channel=False)
+              )
+              (last_quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=2.9878900051116943, per_channel=False)
+            )
+            (neuron): STBIFNeuron(pos_max=5, neg_min=0, M=Parameter containing:
+            tensor(214), N=Parameter containing:
+            tensor(13), Add=False)
+          )
+          (bn1): DummyModule()
+          (relu1): Identity()
+          (conv2): SpikeInferConv2dFuseBN(
+            128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1)
+            (m): QuanInferConv2dFuseBN(
+              128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1)
+              (m): QuanConv2dFuseBN(
+                128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False
+                (quan_w_fn): LsqQuan(thd_pos=7, thd_neg=-8, s=0.02532716654241085, per_channel=False)
+                (quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=3.572401285171509, per_channel=False)
+                (quan_a_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=1.0, per_channel=False)
+              )
+              (last_quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=3.062427043914795, per_channel=False)
+            )
+            (neuron): STBIFNeuron(pos_max=5, neg_min=0, M=Parameter containing:
+            tensor(178), N=Parameter containing:
+            tensor(13), Add=False)
+          )
+          (bn2): DummyModule()
+          (relu2): Identity()
+          (conv3): SpikeInferConv2dFuseBN(
+            128, 512, kernel_size=(1, 1), stride=(1, 1)
+            (m): QuanInferConv2dFuseBN(
+              128, 512, kernel_size=(1, 1), stride=(1, 1)
+              (m): QuanConv2dFuseBN(
+                128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False
+                (quan_w_fn): LsqQuan(thd_pos=7, thd_neg=-8, s=0.05084137246012688, per_channel=False)
+                (quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=2.511258602142334, per_channel=False)
+                (quan_a_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=1.0, per_channel=False)
+              )
+              (last_quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=3.572401285171509, per_channel=False)
+            )
+            (neuron): STBIFNeuron(pos_max=5, neg_min=-4, M=Parameter containing:
+            tensor(148), N=Parameter containing:
+            tensor(11), Add=False)
+          )
+          (bn3): DummyModule()
+          (relu3): Identity()
+          (ResidualAdd): None
+          (relu4): Identity()
+          (spikeResidual): SpikeResidualAddNew(
+            (neuron): STBIFNeuron(pos_max=5, neg_min=0, M=[tensor(197), tensor(234)], N=8, Add=True)
+          )
+        )
+        (3): Bottleneck(
+          (conv1): SpikeInferConv2dFuseBN(
+            512, 128, kernel_size=(1, 1), stride=(1, 1)
+            (m): QuanInferConv2dFuseBN(
+              512, 128, kernel_size=(1, 1), stride=(1, 1)
+              (m): QuanConv2dFuseBN(
+                512, 128, kernel_size=(1, 1), stride=(1, 1), bias=False
+                (quan_w_fn): LsqQuan(thd_pos=7, thd_neg=-8, s=0.02354866825044155, per_channel=False)
+                (quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=3.3573012351989746, per_channel=False)
+                (quan_a_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=1.0, per_channel=False)
+              )
+              (last_quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=3.267697811126709, per_channel=False)
+            )
+            (neuron): STBIFNeuron(pos_max=5, neg_min=0, M=Parameter containing:
+            tensor(188), N=Parameter containing:
+            tensor(13), Add=False)
+          )
+          (bn1): DummyModule()
+          (relu1): Identity()
+          (conv2): SpikeInferConv2dFuseBN(
+            128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1)
+            (m): QuanInferConv2dFuseBN(
+              128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1)
+              (m): QuanConv2dFuseBN(
+                128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False
+                (quan_w_fn): LsqQuan(thd_pos=7, thd_neg=-8, s=0.020026925951242447, per_channel=False)
+                (quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=3.2596330642700195, per_channel=False)
+                (quan_a_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=1.0, per_channel=False)
+              )
+              (last_quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=3.3573012351989746, per_channel=False)
+            )
+            (neuron): STBIFNeuron(pos_max=5, neg_min=0, M=Parameter containing:
+            tensor(169), N=Parameter containing:
+            tensor(13), Add=False)
+          )
+          (bn2): DummyModule()
+          (relu2): Identity()
+          (conv3): SpikeInferConv2dFuseBN(
+            128, 512, kernel_size=(1, 1), stride=(1, 1)
+            (m): QuanInferConv2dFuseBN(
+              128, 512, kernel_size=(1, 1), stride=(1, 1)
+              (m): QuanConv2dFuseBN(
+                128, 512, kernel_size=(1, 1), stride=(1, 1), bias=False
+                (quan_w_fn): LsqQuan(thd_pos=7, thd_neg=-8, s=0.04625791683793068, per_channel=False)
+                (quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=2.694709062576294, per_channel=False)
+                (quan_a_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=1.0, per_channel=False)
+              )
+              (last_quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=3.2596330642700195, per_channel=False)
+            )
+            (neuron): STBIFNeuron(pos_max=5, neg_min=-4, M=Parameter containing:
+            tensor(229), N=Parameter containing:
+            tensor(12), Add=False)
+          )
+          (bn3): DummyModule()
+          (relu3): Identity()
+          (ResidualAdd): None
+          (relu4): Identity()
+          (spikeResidual): SpikeResidualAddNew(
+            (neuron): STBIFNeuron(pos_max=5, neg_min=0, M=[tensor(192), tensor(233)], N=8, Add=True)
+          )
+        )
+      )
+      (layer3): Sequential(
+        (0): Bottleneck(
+          (conv1): SpikeInferConv2dFuseBN(
+            512, 256, kernel_size=(1, 1), stride=(1, 1)
+            (m): QuanInferConv2dFuseBN(
+              512, 256, kernel_size=(1, 1), stride=(1, 1)
+              (m): QuanConv2dFuseBN(
+                512, 256, kernel_size=(1, 1), stride=(1, 1), bias=False
+                (quan_w_fn): LsqQuan(thd_pos=7, thd_neg=-8, s=0.036147382110357285, per_channel=False)
+                (quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=6.088080883026123, per_channel=False)
+                (quan_a_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=1.0, per_channel=False)
+              )
+              (last_quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=3.586641311645508, per_channel=False)
+            )
+            (neuron): STBIFNeuron(pos_max=5, neg_min=0, M=Parameter containing:
+            tensor(174), N=Parameter containing:
+            tensor(13), Add=False)
+          )
+          (bn1): DummyModule()
+          (relu1): Identity()
+          (conv2): SpikeInferConv2dFuseBN(
+            256, 256, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1)
+            (m): QuanInferConv2dFuseBN(
+              256, 256, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1)
+              (m): QuanConv2dFuseBN(
+                256, 256, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False
+                (quan_w_fn): LsqQuan(thd_pos=7, thd_neg=-8, s=0.011631889268755913, per_channel=False)
+                (quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=3.500058174133301, per_channel=False)
+                (quan_a_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=1.0, per_channel=False)
+              )
+              (last_quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=6.088080883026123, per_channel=False)
+            )
+            (neuron): STBIFNeuron(pos_max=5, neg_min=0, M=Parameter containing:
+            tensor(166), N=Parameter containing:
+            tensor(13), Add=False)
+          )
+          (bn2): DummyModule()
+          (relu2): Identity()
+          (conv3): SpikeInferConv2dFuseBN(
+            256, 1024, kernel_size=(1, 1), stride=(1, 1)
+            (m): QuanInferConv2dFuseBN(
+              256, 1024, kernel_size=(1, 1), stride=(1, 1)
+              (m): QuanConv2dFuseBN(
+                256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False
+                (quan_w_fn): LsqQuan(thd_pos=7, thd_neg=-8, s=0.02936219610273838, per_channel=False)
+                (quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=3.308522939682007, per_channel=False)
+                (quan_a_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=1.0, per_channel=False)
+              )
+              (last_quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=3.500058174133301, per_channel=False)
+            )
+            (neuron): STBIFNeuron(pos_max=5, neg_min=-4, M=Parameter containing:
+            tensor(254), N=Parameter containing:
+            tensor(13), Add=False)
+          )
+          (bn3): DummyModule()
+          (relu3): Identity()
+          (downsample): Sequential(
+            (0): SpikeInferConv2dFuseBN(
+              512, 1024, kernel_size=(1, 1), stride=(2, 2)
+              (m): QuanInferConv2dFuseBN(
+                512, 1024, kernel_size=(1, 1), stride=(2, 2)
+                (m): QuanConv2dFuseBN(
+                  512, 1024, kernel_size=(1, 1), stride=(2, 2), bias=False
+                  (quan_w_fn): LsqQuan(thd_pos=7, thd_neg=-8, s=0.022342916578054428, per_channel=False)
+                  (quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=3.1577634811401367, per_channel=False)
+                  (quan_a_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=1.0, per_channel=False)
+                )
+                (last_quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=3.586641311645508, per_channel=False)
+              )
+              (neuron): STBIFNeuron(pos_max=5, neg_min=-4, M=Parameter containing:
+              tensor(208), N=Parameter containing:
+              tensor(13), Add=False)
+            )
+            (1): DummyModule()
+          )
+          (ResidualAdd): None
+          (relu4): Identity()
+          (spikeResidual): SpikeResidualAddNew(
+            (neuron): STBIFNeuron(pos_max=5, neg_min=0, M=[tensor(230), tensor(220)], N=8, Add=True)
+          )
+        )
+        (1): Bottleneck(
+          (conv1): SpikeInferConv2dFuseBN(
+            1024, 256, kernel_size=(1, 1), stride=(1, 1)
+            (m): QuanInferConv2dFuseBN(
+              1024, 256, kernel_size=(1, 1), stride=(1, 1)
+              (m): QuanConv2dFuseBN(
+                1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False
+                (quan_w_fn): LsqQuan(thd_pos=7, thd_neg=-8, s=0.015501251444220543, per_channel=False)
+                (quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=3.2347633838653564, per_channel=False)
+                (quan_a_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=1.0, per_channel=False)
+              )
+              (last_quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=3.6792893409729004, per_channel=False)
+            )
+            (neuron): STBIFNeuron(pos_max=5, neg_min=0, M=Parameter containing:
+            tensor(144), N=Parameter containing:
+            tensor(13), Add=False)
+          )
+          (bn1): DummyModule()
+          (relu1): Identity()
+          (conv2): SpikeInferConv2dFuseBN(
+            256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1)
+            (m): QuanInferConv2dFuseBN(
+              256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1)
+              (m): QuanConv2dFuseBN(
+                256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False
+                (quan_w_fn): LsqQuan(thd_pos=7, thd_neg=-8, s=0.019156167283654213, per_channel=False)
+                (quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=3.3362362384796143, per_channel=False)
+                (quan_a_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=1.0, per_channel=False)
+              )
+              (last_quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=3.2347633838653564, per_channel=False)
+            )
+            (neuron): STBIFNeuron(pos_max=5, neg_min=0, M=Parameter containing:
+            tensor(152), N=Parameter containing:
+            tensor(13), Add=False)
+          )
+          (bn2): DummyModule()
+          (relu2): Identity()
+          (conv3): SpikeInferConv2dFuseBN(
+            256, 1024, kernel_size=(1, 1), stride=(1, 1)
+            (m): QuanInferConv2dFuseBN(
+              256, 1024, kernel_size=(1, 1), stride=(1, 1)
+              (m): QuanConv2dFuseBN(
+                256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False
+                (quan_w_fn): LsqQuan(thd_pos=7, thd_neg=-8, s=0.04128718748688698, per_channel=False)
+                (quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=2.515402317047119, per_channel=False)
+                (quan_a_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=1.0, per_channel=False)
+              )
+              (last_quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=3.3362362384796143, per_channel=False)
+            )
+            (neuron): STBIFNeuron(pos_max=5, neg_min=-4, M=Parameter containing:
+            tensor(224), N=Parameter containing:
+            tensor(12), Add=False)
+          )
+          (bn3): DummyModule()
+          (relu3): Identity()
+          (ResidualAdd): None
+          (relu4): Identity()
+          (spikeResidual): SpikeResidualAddNew(
+            (neuron): STBIFNeuron(pos_max=5, neg_min=0, M=[tensor(192), tensor(280)], N=8, Add=True)
+          )
+        )
+        (2): Bottleneck(
+          (conv1): SpikeInferConv2dFuseBN(
+            1024, 256, kernel_size=(1, 1), stride=(1, 1)
+            (m): QuanInferConv2dFuseBN(
+              1024, 256, kernel_size=(1, 1), stride=(1, 1)
+              (m): QuanConv2dFuseBN(
+                1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False
+                (quan_w_fn): LsqQuan(thd_pos=7, thd_neg=-8, s=0.020436180755496025, per_channel=False)
+                (quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=3.3726866245269775, per_channel=False)
+                (quan_a_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=1.0, per_channel=False)
+              )
+              (last_quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=3.3609421253204346, per_channel=False)
+            )
+            (neuron): STBIFNeuron(pos_max=5, neg_min=0, M=Parameter containing:
+            tensor(167), N=Parameter containing:
+            tensor(13), Add=False)
+          )
+          (bn1): DummyModule()
+          (relu1): Identity()
+          (conv2): SpikeInferConv2dFuseBN(
+            256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1)
+            (m): QuanInferConv2dFuseBN(
+              256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1)
+              (m): QuanConv2dFuseBN(
+                256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False
+                (quan_w_fn): LsqQuan(thd_pos=7, thd_neg=-8, s=0.019370604306459427, per_channel=False)
+                (quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=3.383521795272827, per_channel=False)
+                (quan_a_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=1.0, per_channel=False)
+              )
+              (last_quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=3.3726866245269775, per_channel=False)
+            )
+            (neuron): STBIFNeuron(pos_max=5, neg_min=0, M=Parameter containing:
+            tensor(158), N=Parameter containing:
+            tensor(13), Add=False)
+          )
+          (bn2): DummyModule()
+          (relu2): Identity()
+          (conv3): SpikeInferConv2dFuseBN(
+            256, 1024, kernel_size=(1, 1), stride=(1, 1)
+            (m): QuanInferConv2dFuseBN(
+              256, 1024, kernel_size=(1, 1), stride=(1, 1)
+              (m): QuanConv2dFuseBN(
+                256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False
+                (quan_w_fn): LsqQuan(thd_pos=7, thd_neg=-8, s=0.03866420313715935, per_channel=False)
+                (quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=2.3486452102661133, per_channel=False)
+                (quan_a_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=1.0, per_channel=False)
+              )
+              (last_quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=3.383521795272827, per_channel=False)
+            )
+            (neuron): STBIFNeuron(pos_max=5, neg_min=-4, M=Parameter containing:
+            tensor(228), N=Parameter containing:
+            tensor(12), Add=False)
+          )
+          (bn3): DummyModule()
+          (relu3): Identity()
+          (ResidualAdd): None
+          (relu4): Identity()
+          (spikeResidual): SpikeResidualAddNew(
+            (neuron): STBIFNeuron(pos_max=5, neg_min=0, M=[tensor(179), tensor(256)], N=8, Add=True)
+          )
+        )
+        (3): Bottleneck(
+          (conv1): SpikeInferConv2dFuseBN(
+            1024, 256, kernel_size=(1, 1), stride=(1, 1)
+            (m): QuanInferConv2dFuseBN(
+              1024, 256, kernel_size=(1, 1), stride=(1, 1)
+              (m): QuanConv2dFuseBN(
+                1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False
+                (quan_w_fn): LsqQuan(thd_pos=7, thd_neg=-8, s=0.02114662528038025, per_channel=False)
+                (quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=3.7404723167419434, per_channel=False)
+                (quan_a_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=1.0, per_channel=False)
+              )
+              (last_quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=3.3612632751464844, per_channel=False)
+            )
+            (neuron): STBIFNeuron(pos_max=5, neg_min=0, M=Parameter containing:
+            tensor(156), N=Parameter containing:
+            tensor(13), Add=False)
+          )
+          (bn1): DummyModule()
+          (relu1): Identity()
+          (conv2): SpikeInferConv2dFuseBN(
+            256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1)
+            (m): QuanInferConv2dFuseBN(
+              256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1)
+              (m): QuanConv2dFuseBN(
+                256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False
+                (quan_w_fn): LsqQuan(thd_pos=7, thd_neg=-8, s=0.019467655569314957, per_channel=False)
+                (quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=3.3508524894714355, per_channel=False)
+                (quan_a_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=1.0, per_channel=False)
+              )
+              (last_quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=3.7404723167419434, per_channel=False)
+            )
+            (neuron): STBIFNeuron(pos_max=5, neg_min=0, M=Parameter containing:
+            tensor(178), N=Parameter containing:
+            tensor(13), Add=False)
+          )
+          (bn2): DummyModule()
+          (relu2): Identity()
+          (conv3): SpikeInferConv2dFuseBN(
+            256, 1024, kernel_size=(1, 1), stride=(1, 1)
+            (m): QuanInferConv2dFuseBN(
+              256, 1024, kernel_size=(1, 1), stride=(1, 1)
+              (m): QuanConv2dFuseBN(
+                256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False
+                (quan_w_fn): LsqQuan(thd_pos=7, thd_neg=-8, s=0.03247060626745224, per_channel=False)
+                (quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=2.213859796524048, per_channel=False)
+                (quan_a_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=1.0, per_channel=False)
+              )
+              (last_quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=3.3508524894714355, per_channel=False)
+            )
+            (neuron): STBIFNeuron(pos_max=5, neg_min=-4, M=Parameter containing:
+            tensor(201), N=Parameter containing:
+            tensor(12), Add=False)
+          )
+          (bn3): DummyModule()
+          (relu3): Identity()
+          (ResidualAdd): None
+          (relu4): Identity()
+          (spikeResidual): SpikeResidualAddNew(
+            (neuron): STBIFNeuron(pos_max=5, neg_min=0, M=[tensor(168), tensor(256)], N=8, Add=True)
+          )
+        )
+        (4): Bottleneck(
+          (conv1): SpikeInferConv2dFuseBN(
+            1024, 256, kernel_size=(1, 1), stride=(1, 1)
+            (m): QuanInferConv2dFuseBN(
+              1024, 256, kernel_size=(1, 1), stride=(1, 1)
+              (m): QuanConv2dFuseBN(
+                1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False
+                (quan_w_fn): LsqQuan(thd_pos=7, thd_neg=-8, s=0.021446187049150467, per_channel=False)
+                (quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=4.0009660720825195, per_channel=False)
+                (quan_a_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=1.0, per_channel=False)
+              )
+              (last_quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=3.363706111907959, per_channel=False)
+            )
+            (neuron): STBIFNeuron(pos_max=5, neg_min=0, M=Parameter containing:
+            tensor(148), N=Parameter containing:
+            tensor(13), Add=False)
+          )
+          (bn1): DummyModule()
+          (relu1): Identity()
+          (conv2): SpikeInferConv2dFuseBN(
+            256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1)
+            (m): QuanInferConv2dFuseBN(
+              256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1)
+              (m): QuanConv2dFuseBN(
+                256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False
+                (quan_w_fn): LsqQuan(thd_pos=7, thd_neg=-8, s=0.020551929250359535, per_channel=False)
+                (quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=3.702648878097534, per_channel=False)
+                (quan_a_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=1.0, per_channel=False)
+              )
+              (last_quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=4.0009660720825195, per_channel=False)
+            )
+            (neuron): STBIFNeuron(pos_max=5, neg_min=0, M=Parameter containing:
+            tensor(182), N=Parameter containing:
+            tensor(13), Add=False)
+          )
+          (bn2): DummyModule()
+          (relu2): Identity()
+          (conv3): SpikeInferConv2dFuseBN(
+            256, 1024, kernel_size=(1, 1), stride=(1, 1)
+            (m): QuanInferConv2dFuseBN(
+              256, 1024, kernel_size=(1, 1), stride=(1, 1)
+              (m): QuanConv2dFuseBN(
+                256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False
+                (quan_w_fn): LsqQuan(thd_pos=7, thd_neg=-8, s=0.0402924045920372, per_channel=False)
+                (quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=2.831819534301758, per_channel=False)
+                (quan_a_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=1.0, per_channel=False)
+              )
+              (last_quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=3.702648878097534, per_channel=False)
+            )
+            (neuron): STBIFNeuron(pos_max=5, neg_min=-4, M=Parameter containing:
+            tensor(216), N=Parameter containing:
+            tensor(12), Add=False)
+          )
+          (bn3): DummyModule()
+          (relu3): Identity()
+          (ResidualAdd): None
+          (relu4): Identity()
+          (spikeResidual): SpikeResidualAddNew(
+            (neuron): STBIFNeuron(pos_max=5, neg_min=0, M=[tensor(199), tensor(236)], N=8, Add=True)
+          )
+        )
+        (5): Bottleneck(
+          (conv1): SpikeInferConv2dFuseBN(
+            1024, 256, kernel_size=(1, 1), stride=(1, 1)
+            (m): QuanInferConv2dFuseBN(
+              1024, 256, kernel_size=(1, 1), stride=(1, 1)
+              (m): QuanConv2dFuseBN(
+                1024, 256, kernel_size=(1, 1), stride=(1, 1), bias=False
+                (quan_w_fn): LsqQuan(thd_pos=7, thd_neg=-8, s=0.020565971732139587, per_channel=False)
+                (quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=4.328455448150635, per_channel=False)
+                (quan_a_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=1.0, per_channel=False)
+              )
+              (last_quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=3.6473069190979004, per_channel=False)
+            )
+            (neuron): STBIFNeuron(pos_max=5, neg_min=0, M=Parameter containing:
+            tensor(142), N=Parameter containing:
+            tensor(13), Add=False)
+          )
+          (bn1): DummyModule()
+          (relu1): Identity()
+          (conv2): SpikeInferConv2dFuseBN(
+            256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1)
+            (m): QuanInferConv2dFuseBN(
+              256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1)
+              (m): QuanConv2dFuseBN(
+                256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False
+                (quan_w_fn): LsqQuan(thd_pos=7, thd_neg=-8, s=0.019356632605195045, per_channel=False)
+                (quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=3.8750808238983154, per_channel=False)
+                (quan_a_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=1.0, per_channel=False)
+              )
+              (last_quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=4.328455448150635, per_channel=False)
+            )
+            (neuron): STBIFNeuron(pos_max=5, neg_min=0, M=Parameter containing:
+            tensor(177), N=Parameter containing:
+            tensor(13), Add=False)
+          )
+          (bn2): DummyModule()
+          (relu2): Identity()
+          (conv3): SpikeInferConv2dFuseBN(
+            256, 1024, kernel_size=(1, 1), stride=(1, 1)
+            (m): QuanInferConv2dFuseBN(
+              256, 1024, kernel_size=(1, 1), stride=(1, 1)
+              (m): QuanConv2dFuseBN(
+                256, 1024, kernel_size=(1, 1), stride=(1, 1), bias=False
+                (quan_w_fn): LsqQuan(thd_pos=7, thd_neg=-8, s=0.029415173456072807, per_channel=False)
+                (quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=2.7532501220703125, per_channel=False)
+                (quan_a_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=1.0, per_channel=False)
+              )
+              (last_quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=3.8750808238983154, per_channel=False)
+            )
+            (neuron): STBIFNeuron(pos_max=5, neg_min=-4, M=Parameter containing:
+            tensor(170), N=Parameter containing:
+            tensor(12), Add=False)
+          )
+          (bn3): DummyModule()
+          (relu3): Identity()
+          (ResidualAdd): None
+          (relu4): Identity()
+          (spikeResidual): SpikeResidualAddNew(
+            (neuron): STBIFNeuron(pos_max=5, neg_min=0, M=[tensor(176), tensor(233)], N=8, Add=True)
+          )
+        )
+      )
+      (layer4): Sequential(
+        (0): Bottleneck(
+          (conv1): SpikeInferConv2dFuseBN(
+            1024, 512, kernel_size=(1, 1), stride=(1, 1)
+            (m): QuanInferConv2dFuseBN(
+              1024, 512, kernel_size=(1, 1), stride=(1, 1)
+              (m): QuanConv2dFuseBN(
+                1024, 512, kernel_size=(1, 1), stride=(1, 1), bias=False
+                (quan_w_fn): LsqQuan(thd_pos=7, thd_neg=-8, s=0.029576018452644348, per_channel=False)
+                (quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=6.673046588897705, per_channel=False)
+                (quan_a_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=1.0, per_channel=False)
+              )
+              (last_quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=4.001677989959717, per_channel=False)
+            )
+            (neuron): STBIFNeuron(pos_max=5, neg_min=0, M=Parameter containing:
+            tensor(145), N=Parameter containing:
+            tensor(13), Add=False)
+          )
+          (bn1): DummyModule()
+          (relu1): Identity()
+          (conv2): SpikeInferConv2dFuseBN(
+            512, 512, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1)
+            (m): QuanInferConv2dFuseBN(
+              512, 512, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1)
+              (m): QuanConv2dFuseBN(
+                512, 512, kernel_size=(3, 3), stride=(2, 2), padding=(1, 1), bias=False
+                (quan_w_fn): LsqQuan(thd_pos=7, thd_neg=-8, s=0.010704460553824902, per_channel=False)
+                (quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=4.136984825134277, per_channel=False)
+                (quan_a_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=1.0, per_channel=False)
+              )
+              (last_quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=6.673046588897705, per_channel=False)
+            )
+            (neuron): STBIFNeuron(pos_max=5, neg_min=0, M=Parameter containing:
+            tensor(141), N=Parameter containing:
+            tensor(13), Add=False)
+          )
+          (bn2): DummyModule()
+          (relu2): Identity()
+          (conv3): SpikeInferConv2dFuseBN(
+            512, 2048, kernel_size=(1, 1), stride=(1, 1)
+            (m): QuanInferConv2dFuseBN(
+              512, 2048, kernel_size=(1, 1), stride=(1, 1)
+              (m): QuanConv2dFuseBN(
+                512, 2048, kernel_size=(1, 1), stride=(1, 1), bias=False
+                (quan_w_fn): LsqQuan(thd_pos=7, thd_neg=-8, s=0.039125073701143265, per_channel=False)
+                (quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=4.375162124633789, per_channel=False)
+                (quan_a_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=1.0, per_channel=False)
+              )
+              (last_quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=4.136984825134277, per_channel=False)
+            )
+            (neuron): STBIFNeuron(pos_max=5, neg_min=-4, M=Parameter containing:
+            tensor(152), N=Parameter containing:
+            tensor(12), Add=False)
+          )
+          (bn3): DummyModule()
+          (relu3): Identity()
+          (downsample): Sequential(
+            (0): SpikeInferConv2dFuseBN(
+              1024, 2048, kernel_size=(1, 1), stride=(2, 2)
+              (m): QuanInferConv2dFuseBN(
+                1024, 2048, kernel_size=(1, 1), stride=(2, 2)
+                (m): QuanConv2dFuseBN(
+                  1024, 2048, kernel_size=(1, 1), stride=(2, 2), bias=False
+                  (quan_w_fn): LsqQuan(thd_pos=7, thd_neg=-8, s=0.025521477684378624, per_channel=False)
+                  (quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=4.366518020629883, per_channel=False)
+                  (quan_a_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=1.0, per_channel=False)
+                )
+                (last_quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=4.001677989959717, per_channel=False)
+              )
+              (neuron): STBIFNeuron(pos_max=5, neg_min=-4, M=Parameter containing:
+              tensor(192), N=Parameter containing:
+              tensor(13), Add=False)
+            )
+            (1): DummyModule()
+          )
+          (ResidualAdd): None
+          (relu4): Identity()
+          (spikeResidual): SpikeResidualAddNew(
+            (neuron): STBIFNeuron(pos_max=5, neg_min=0, M=[tensor(165), tensor(164)], N=8, Add=True)
+          )
+        )
+        (1): Bottleneck(
+          (conv1): SpikeInferConv2dFuseBN(
+            2048, 512, kernel_size=(1, 1), stride=(1, 1)
+            (m): QuanInferConv2dFuseBN(
+              2048, 512, kernel_size=(1, 1), stride=(1, 1)
+              (m): QuanConv2dFuseBN(
+                2048, 512, kernel_size=(1, 1), stride=(1, 1), bias=False
+                (quan_w_fn): LsqQuan(thd_pos=7, thd_neg=-8, s=0.013705029152333736, per_channel=False)
+                (quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=4.053297996520996, per_channel=False)
+                (quan_a_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=1.0, per_channel=False)
+              )
+              (last_quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=6.802183628082275, per_channel=False)
+            )
+            (neuron): STBIFNeuron(pos_max=5, neg_min=0, M=Parameter containing:
+            tensor(188), N=Parameter containing:
+            tensor(13), Add=False)
+          )
+          (bn1): DummyModule()
+          (relu1): Identity()
+          (conv2): SpikeInferConv2dFuseBN(
+            512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1)
+            (m): QuanInferConv2dFuseBN(
+              512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1)
+              (m): QuanConv2dFuseBN(
+                512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False
+                (quan_w_fn): LsqQuan(thd_pos=7, thd_neg=-8, s=0.015095498412847519, per_channel=False)
+                (quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=3.9364407062530518, per_channel=False)
+                (quan_a_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=1.0, per_channel=False)
+              )
+              (last_quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=4.053297996520996, per_channel=False)
+            )
+            (neuron): STBIFNeuron(pos_max=5, neg_min=0, M=Parameter containing:
+            tensor(255), N=Parameter containing:
+            tensor(14), Add=False)
+          )
+          (bn2): DummyModule()
+          (relu2): Identity()
+          (conv3): SpikeInferConv2dFuseBN(
+            512, 2048, kernel_size=(1, 1), stride=(1, 1)
+            (m): QuanInferConv2dFuseBN(
+              512, 2048, kernel_size=(1, 1), stride=(1, 1)
+              (m): QuanConv2dFuseBN(
+                512, 2048, kernel_size=(1, 1), stride=(1, 1), bias=False
+                (quan_w_fn): LsqQuan(thd_pos=7, thd_neg=-8, s=0.05339367687702179, per_channel=False)
+                (quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=4.251365661621094, per_channel=False)
+                (quan_a_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=1.0, per_channel=False)
+              )
+              (last_quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=3.9364407062530518, per_channel=False)
+            )
+            (neuron): STBIFNeuron(pos_max=5, neg_min=-4, M=Parameter containing:
+            tensor(202), N=Parameter containing:
+            tensor(12), Add=False)
+          )
+          (bn3): DummyModule()
+          (relu3): Identity()
+          (ResidualAdd): None
+          (relu4): Identity()
+          (spikeResidual): SpikeResidualAddNew(
+            (neuron): STBIFNeuron(pos_max=5, neg_min=0, M=[tensor(160), tensor(256)], N=8, Add=True)
+          )
+        )
+        (2): Bottleneck(
+          (conv1): SpikeInferConv2dFuseBN(
+            2048, 512, kernel_size=(1, 1), stride=(1, 1)
+            (m): QuanInferConv2dFuseBN(
+              2048, 512, kernel_size=(1, 1), stride=(1, 1)
+              (m): QuanConv2dFuseBN(
+                2048, 512, kernel_size=(1, 1), stride=(1, 1), bias=False
+                (quan_w_fn): LsqQuan(thd_pos=7, thd_neg=-8, s=0.031763315200805664, per_channel=False)
+                (quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=3.2523086071014404, per_channel=False)
+                (quan_a_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=1.0, per_channel=False)
+              )
+              (last_quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=6.802182674407959, per_channel=False)
+            )
+            (neuron): STBIFNeuron(pos_max=5, neg_min=0, M=Parameter containing:
+            tensor(136), N=Parameter containing:
+            tensor(11), Add=False)
+          )
+          (bn1): DummyModule()
+          (relu1): Identity()
+          (conv2): SpikeInferConv2dFuseBN(
+            512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1)
+            (m): QuanInferConv2dFuseBN(
+              512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1)
+              (m): QuanConv2dFuseBN(
+                512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False
+                (quan_w_fn): LsqQuan(thd_pos=7, thd_neg=-8, s=0.020232032984495163, per_channel=False)
+                (quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=2.4001173973083496, per_channel=False)
+                (quan_a_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=1.0, per_channel=False)
+              )
+              (last_quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=3.2523086071014404, per_channel=False)
+            )
+            (neuron): STBIFNeuron(pos_max=5, neg_min=0, M=Parameter containing:
+            tensor(225), N=Parameter containing:
+            tensor(13), Add=False)
+          )
+          (bn2): DummyModule()
+          (relu2): Identity()
+          (conv3): SpikeInferConv2dFuseBN(
+            512, 2048, kernel_size=(1, 1), stride=(1, 1)
+            (m): QuanInferConv2dFuseBN(
+              512, 2048, kernel_size=(1, 1), stride=(1, 1)
+              (m): QuanConv2dFuseBN(
+                512, 2048, kernel_size=(1, 1), stride=(1, 1), bias=False
+                (quan_w_fn): LsqQuan(thd_pos=7, thd_neg=-8, s=0.040885042399168015, per_channel=False)
+                (quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=4.662263870239258, per_channel=False)
+                (quan_a_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=1.0, per_channel=False)
+              )
+              (last_quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=2.4001173973083496, per_channel=False)
+            )
+            (neuron): STBIFNeuron(pos_max=5, neg_min=-4, M=Parameter containing:
+            tensor(172), N=Parameter containing:
+            tensor(13), Add=False)
+          )
+          (bn3): DummyModule()
+          (relu3): Identity()
+          (ResidualAdd): None
+          (relu4): Identity()
+          (spikeResidual): SpikeResidualAddNew(
+            (neuron): STBIFNeuron(pos_max=5, neg_min=0, M=[tensor(250), tensor(364)], N=8, Add=True)
+          )
+        )
+      )
+      (avgpool): SpikeInferAvgPool(
+        (m): QuanInferAvgPool(
+          (m): QuanAvgPool(
+            (m): AvgPool2d(kernel_size=7, stride=7, padding=0)
+            (quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=0.7157753109931946, per_channel=False)
+          )
+          (last_quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=4.779034614562988, per_channel=False)
+        )
+        (neuron): STBIFNeuron(pos_max=5, neg_min=-4, M=Parameter containing:
+        tensor(140), N=Parameter containing:
+        tensor(10), Add=False)
+      )
+      (fc): SpikeInferLinear(
+        in_features=2048, out_features=1000, bias=True
+        (m): QuanInferLinear(
+          in_features=2048, out_features=1000, bias=True
+          (m): QuanLinear(
+            in_features=2048, out_features=1000, bias=True
+            (quan_w_fn): LsqQuan(thd_pos=7, thd_neg=-8, s=0.06965268403291702, per_channel=False)
+            (quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=0.18703874945640564, per_channel=False)
+            (m): Linear(in_features=2048, out_features=1000, bias=True)
+          )
+          (last_quan_out_fn): LsqQuanAct(thd_pos=5, thd_neg=-4, s=0.7157753109931946, per_channel=False)
+        )
+        (neuron): STBIFNeuron(pos_max=5, neg_min=-4, M=Parameter containing:
+        tensor(204), N=Parameter containing:
+        tensor(12), Add=False)
+      )
+    )
+  )
+)
