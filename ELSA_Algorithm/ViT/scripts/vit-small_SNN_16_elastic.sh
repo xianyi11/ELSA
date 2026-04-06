@@ -9,8 +9,8 @@ NCCL_P2P_DISABLE=1 OMP_NUM_THREADS=1 CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6 python -
     --accum_iter 4 \
     --batch_size 1 \
     --model vit_small_patch16 \
-    --finetune /home/kang_you/model_pool/QANN-vit-small-14level.pth \
-    --resume /home/kang_you/model_pool/QANN-vit-small-14level.pth \
+    --finetune /home/user/model_pool/QANN-vit-small-14level.pth \
+    --resume /home/user/model_pool/QANN-vit-small-14level.pth \
     --epochs 100 --elastic --confidence_thr 0.8 \
     --blr 3.536e-4 --layer_decay 0.65 \
     --weight_decay 0.05 --drop_path 0.1 --drop_rate 0.0 --mixup 0.8 --cutmix 1.0 --reprob 0.25 \

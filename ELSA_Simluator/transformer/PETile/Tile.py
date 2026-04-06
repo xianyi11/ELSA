@@ -543,7 +543,7 @@ def test_Tile_linear_bias():
     
     torch.set_printoptions(profile="full")
     
-    # layerParam = torch.load("/home/kang_you/simulator_new_transformer/test_layers/blocks.0.attn_qkv")
+    # layerParam = torch.load("/home/user/simulator_new_transformer/test_layers/blocks.0.attn_qkv")
     print(layerParam.printmyself())
     
     T,B,L,N = layerParam.output.shape

@@ -113,7 +113,7 @@ def validate(net, input_, cuda=True):
 if __name__ == '__main__':
     import torchvision
     import timm
-    mbnet = torch.load("/home/kang_you/LLconverter/output/cifar10_vgg16_quan4_1677759303845/ann_model_best.pth")
+    mbnet = torch.load("/home/user/LLconverter/output/cifar10_vgg16_quan4_1677759303845/ann_model_best.pth")
     # myquan_replace(mbnet)
     # torch.set_default_dtype(torch.float64)
     # mbnet.double()

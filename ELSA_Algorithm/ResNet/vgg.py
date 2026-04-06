@@ -156,7 +156,7 @@ def vgg16_bn(pretrained=False, model_root=None,**kwargs):
     kwargs.pop('model_root', None)
     model = VGG(cfg['D'], batch_norm=True, **kwargs)
     # if pretrained:
-    #     model.load_state_dict(torch.load("/home/kang_you/model_pool/vgg16_imagenet_model_timm_best76.16.pth.tar"))
+    #     model.load_state_dict(torch.load("/home/user/model_pool/vgg16_imagenet_model_timm_best76.16.pth.tar"))
     return model
 
 def vgg16_bn_imagenet(pretrained=False, model_root=None,**kwargs):
@@ -165,7 +165,7 @@ def vgg16_bn_imagenet(pretrained=False, model_root=None,**kwargs):
     model = VGG(cfg['F'], batch_norm=True, **kwargs)
     if pretrained:
         new_state_dict = OrderedDict()
-        state_dict = torch.load("/home/kang_you/vgg16_imagenet_dict.pth")
+        state_dict = torch.load("/home/user/vgg16_imagenet_dict.pth")
         # state_dict = state_dict["model"]
         for k, v in state_dict.items():
             name = k[7:]

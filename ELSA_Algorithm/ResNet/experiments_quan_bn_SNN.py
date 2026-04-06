@@ -138,7 +138,7 @@ if __name__ == "__main__":
 
     glo._init()
 
-    output_bin_qann_dir = f"/data1/kang_you/output_bin_qann_{args.model}_w{args.WeightBit}_a{args.ActBit}/"
+    output_bin_qann_dir = f"/data1/user/output_bin_qann_{args.model}_w{args.WeightBit}_a{args.ActBit}/"
     
     if args.rank == 0:
         if not os.path.exists(output_bin_qann_dir):
@@ -165,7 +165,7 @@ if __name__ == "__main__":
     calOrder = []
     set_snn_save_name(model,calOrder)
     
-    # output_bin_snn_dir = f"/data1/kang_you/output_bin_snn_{args.model}_w{args.WeightBit}_a{args.ActBit}_T{args.maxTimeStep}/"
+    # output_bin_snn_dir = f"/data1/user/output_bin_snn_{args.model}_w{args.WeightBit}_a{args.ActBit}_T{args.maxTimeStep}/"
     # if args.rank == 0:
     #     if not os.path.exists(output_bin_snn_dir):
     #         os.mkdir(output_bin_snn_dir)

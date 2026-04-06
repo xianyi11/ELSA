@@ -172,7 +172,7 @@ def mobilenetv2(pretrained=False, **kwargs):
     """
     model = MobileNetV2(**kwargs)
     if pretrained == True:
-        state_dict = torch.load("/home/kang_you/CNN-for-Raw-Waveforms-main/ForQANN/mobilenetv2_1.0-0c6065bc.pth",map_location="cpu")
+        state_dict = torch.load("/home/user/CNN-for-Raw-Waveforms-main/ForQANN/mobilenetv2_1.0-0c6065bc.pth",map_location="cpu")
         info = model.load_state_dict(state_dict)
         print(info)
     return model

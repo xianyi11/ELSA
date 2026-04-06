@@ -437,7 +437,7 @@ def _parse_args_standalone():
     parser.add_argument("--Time_step", type=int, default=24)
     parser.add_argument(
         "--datapath",
-        default="/data/kang_you/output_bin_snn_resnet50_w4_a3_T16/",
+        default="/data/user/output_bin_snn_resnet50_w4_a3_T16/",
         help="Directory of exported layer binaries (model output)",
     )
     parser.add_argument(

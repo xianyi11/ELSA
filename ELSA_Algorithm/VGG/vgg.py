@@ -159,7 +159,7 @@ def vgg16_bn(pretrained=False, model_root=None,**kwargs):
     model = VGG(cfg['D'], batch_norm=True, **kwargs)
     if pretrained:
         new_state_dict = OrderedDict()
-        state_dict = torch.load("/home/kang_you/.cache/torch/hub/checkpoints/vgg16-397923af.pth")
+        state_dict = torch.load("/home/user/.cache/torch/hub/checkpoints/vgg16-397923af.pth")
         # state_dict = state_dict["model"]
         for k, v in state_dict.items():
             if k.count("classifier") > 0:

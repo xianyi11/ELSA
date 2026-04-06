@@ -36,7 +36,7 @@ from typing import Any, Dict, List, Sequence, Tuple
 ROOT = Path(__file__).resolve().parent
 CONV_ROOT = ROOT / "convolution"
 TRANS_ROOT = ROOT / "transformer"
-FIGURE17_FONT_DIR = ROOT / "figure17_cache" / "font"
+FIGURE17_FONT_DIR = ROOT / "tracer_files" / "font"
 
 # Wi -> convolution ``--model`` id
 CONV_MODEL_ORDER: List[Tuple[str, str]] = [
@@ -338,7 +338,7 @@ def print_data_matrices(
 
 
 def _register_figure17_fonts() -> None:
-    """Load all TTFs under ``figure17_cache/font`` so matplotlib uses local Times New Roman."""
+    """Load all TTFs under ``tracer_files/font`` so matplotlib uses local Times New Roman."""
     from matplotlib import font_manager as fm
 
     if not FIGURE17_FONT_DIR.is_dir():
@@ -468,7 +468,7 @@ def main() -> None:
     parser.add_argument(
         "--cache-dir",
         type=Path,
-        default=ROOT / "figure17_cache",
+        default=ROOT / "tracer_files",
         help="Per-model simulator outputs (calculateInfo .pth)",
     )
     parser.add_argument(
@@ -484,7 +484,7 @@ def main() -> None:
     parser.add_argument(
         "--out-pdf",
         type=Path,
-        default=ROOT / "SNN_benchMark_Comparison.png",
+        default=ROOT / "SNN_benchMark_Comparison.pdf",
         help="Output PDF path",
     )
     parser.add_argument(

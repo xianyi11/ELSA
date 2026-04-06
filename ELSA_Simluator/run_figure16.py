@@ -459,7 +459,7 @@ def main() -> None:
     parser.add_argument(
         "--cache-dir",
         type=Path,
-        default=ROOT / "figure16_cache",
+        default=ROOT / "tracer_files",
         help="Per-model simulator outputs (calculateInfo .pth)",
     )
     parser.add_argument(

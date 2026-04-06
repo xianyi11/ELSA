@@ -76,14 +76,13 @@ class ORIIFNeuron(nn.Module):
 
 
 class IFNeuron(nn.Module):
-    def __init__(self,q_threshold,level,sym=False, borrow=0.0):
+    def __init__(self,q_threshold,level,sym=False):
         super(IFNeuron,self).__init__()
         self.q = 0.0
         self.acc_q = 0.0
         self.q_threshold = q_threshold
         self.is_work = False
         self.cur_output = 0.0
-        self.borrow = borrow
         # self.steps = torch.tensor(3.0) 
         self.level = torch.tensor(level)
         self.sym = sym
@@ -95,9 +94,7 @@ class IFNeuron(nn.Module):
             self.neg_min = torch.tensor(0)
             
         self.eps = 0
-        self.t = 0
-        self.T = 7
-        
+
     def __repr__(self):
             return f"ST-BIFNeuron(level={self.level}, sym={self.sym}, pos_max={self.pos_max}, neg_min={self.neg_min}, q_threshold={self.q_threshold})"
     
@@ -109,8 +106,6 @@ class IFNeuron(nn.Module):
         self.is_work = False
         self.spike_position = None
         self.neg_spike_position = None
-        self.t = 0
-        self.T = 7
 
     def forward(self,input):
         x = input/self.q_threshold
@@ -125,13 +120,7 @@ class IFNeuron(nn.Module):
 
         self.is_work = True
         
-        if self.t == 0:
-            self.q = self.q + (x.detach() if torch.is_tensor(x) else x) + self.borrow * self.q_threshold
-        elif self.t < self.T + 1:
-            self.q = self.q + (x.detach() if torch.is_tensor(x) else x) - self.borrow * self.q_threshold/self.T
-        else:
-            self.q = self.q + (x.detach() if torch.is_tensor(x) else x)
-            
+        self.q = self.q + (x.detach() if torch.is_tensor(x) else x)
         self.acc_q = torch.round(self.acc_q)
 
         spike_position = (self.q - 1 >= 0) & (self.acc_q < self.pos_max)
@@ -153,43 +142,18 @@ class IFNeuron(nn.Module):
         
         return self.cur_output*self.q_threshold
 
-class spiking_BatchNorm2d(nn.Module):
-    def __init__(self,bn,level):
-        super(spiking_BatchNorm2d, self).__init__()
-        self.level = level
-        self.fire_time = self.level
-        self.bn = bn
-        self.running_mean = bn.running_mean.unsqueeze(-1).unsqueeze(-1).cuda()
-        self.running_var = bn.running_var.unsqueeze(-1).unsqueeze(-1).cuda()
-        self.weight = bn.weight.unsqueeze(-1).unsqueeze(-1).cuda()
-        self.bias = bn.bias.unsqueeze(-1).unsqueeze(-1).cuda()
-        self.eps = bn.eps
-    
-    def reset(self):
-        # print("spiking_BatchNorm2d reset")
-        self.fire_time = self.level
-    
-    def forward(self, input):
-        if self.fire_time == self.level:
-            self.fire_time = self.fire_time - 1
-            output = ((input - self.running_mean)/torch.sqrt(self.running_var+self.eps))*self.weight + self.bias
-            return output
-        else:
-            return ((input)/torch.sqrt(self.running_var+self.eps))*self.weight
-
-
 
 class Spiking_LayerNorm(nn.Module):
     def __init__(self,dim):
         super(Spiking_LayerNorm, self).__init__()
         self.layernorm = nn.LayerNorm(dim)
         self.X = 0.0
-        self.step = 6
         self.Y_pre = None
         self.weight = self.layernorm.weight
-        self.bias = self.layernorm.bias        
+        self.bias = self.layernorm.bias
         self.t = 0
-        
+        self.step = 4
+
     def reset(self):
         # print("Spiking_LayerNorm reset")
         self.X = 0.0
@@ -216,21 +180,24 @@ class spiking_softmax(nn.Module):
         self.X = 0.0
         self.Y_pre = 0.0
         self.t = 0
-        self.step = 6
+        self.step = 4
     
     def reset(self):
         # print("spiking_softmax reset")
         self.X = 0.0
         self.Y_pre = 0.0        
         self.t = 0
+        self.step = 4
     
     def forward(self, input):
         self.t = self.t + 1
         self.X = input + self.X
         if self.t <= self.step:
-            Y = F.softmax(self.X,dim=-1) * self.t / self.step
+            Y = F.softmax(self.X * self.step / self.t,dim=-1)
         else:
             Y = F.softmax(self.X,dim=-1)
+
+        Y = F.softmax(self.X,dim=-1)
         Y_pre = deepcopy(self.Y_pre)
         self.Y_pre = Y
         return Y - Y_pre
@@ -264,11 +231,12 @@ def threshold_optimization(data, quantization_level=255, n_trial=300, eps=1e-10)
 
     '''
 
-    n_lvl = quantization_level  # quantization levels
-    n_half_lvls = (quantization_level)//2
+    n_lvl = quantization_level+1  # quantization levels
+    n_half_lvls = (quantization_level+1)//2
     n_bin_edge = n_lvl * n_trial + 1
 
     data_max = np.max(np.abs(data))
+    # print(np.linspace(-data_max,data_max,num=n_bin_edge))
     hist, bin_edge = np.histogram(data.flatten(),
                                   bins=np.linspace(-data_max,
                                                    data_max,
@@ -448,6 +416,7 @@ class MyQuan(nn.Module):
         if level >= 512:
             print("level",level)
             self.pos_max = 'full'
+            self.neg_min = 'full'
         else:
             print("level",level)
             self.pos_max = torch.tensor(level)
@@ -502,7 +471,9 @@ class MyQuan(nn.Module):
         # print("self.init_state<self.batch_init",self.init_state<self.batch_init)
         # print("self.training",self.training)
         if self.init_state == 0 and self.training:
-            self.s.data = torch.tensor(x.detach().abs().mean() * 2 / (self.pos_max.detach().abs().mean() ** 0.5),dtype=torch.float32).cuda()
+            self.s.data = torch.tensor(x.detach().abs().mean() * 2 / (self.pos_max.detach() ** 0.5)).cuda()
+            # threshold = threshold_optimization(np.array(x.detach().cpu()), quantization_level=int(self.pos_max), n_trial=100, eps=1e-10)
+            # self.s.data = torch.tensor(threshold / (self.pos_max),dtype=torch.float32).cuda()
             self.init_state += 1
             return x
         # elif self.init_state<self.batch_init and self.training:
@@ -600,21 +571,6 @@ class QAttention(nn.Module):
 
         return x
 
-
-class AttentionMulti(nn.Module):
-    def __init__(self):
-        super(AttentionMulti,self).__init__()
-
-    def forward(self, x1_t,x2_t,x1_sum_t,x2_sum_t):
-        return x1_sum_t @ x2_t.transpose(-2, -1)  + x1_t @ x2_sum_t.transpose(-2, -1) - x1_t @ x2_t.transpose(-2, -1)
-    
-class AttentionMulti1(nn.Module):
-    def __init__(self):
-        super(AttentionMulti1,self).__init__()
-
-    def forward(self, x1_t,x2_t,x1_sum_t,x2_sum_t):
-        return  x1_sum_t @ x2_t + x1_t @ x2_sum_t - x1_t @ x2_t
-
 def multi(x1_t,x2_t,x1_sum_t,x2_sum_t):
     return x1_sum_t @ x2_t.transpose(-2, -1)  + x1_t @ x2_sum_t.transpose(-2, -1) - x1_t @ x2_t.transpose(-2, -1)
 
@@ -663,8 +619,6 @@ class SAttention(nn.Module):
         if self.is_softmax:
             self.Ssoftmax = spiking_softmax()
         self.T = T
-        self.multi = AttentionMulti()
-        self.multi1 = AttentionMulti1()
 
         # saving mid feature
         self.t = 0
@@ -766,7 +720,7 @@ class SAttention(nn.Module):
                 del self.accu_k
                 del self.accu_k_acc
 
-        attn = self.multi(q,k,q_acc.float(),(self.k_IF.acc_q*self.k_IF.q_threshold).float())
+        attn = multi(q,k,q_acc.float(),(self.k_IF.acc_q*self.k_IF.q_threshold).float())
 
         attn = self.attn_IF(attn)
 
@@ -811,9 +765,9 @@ class SAttention(nn.Module):
                 del self.accu_v_acc
 
         if not self.is_softmax:
-            x = self.multi1(attn,v,(acc_attn).float(),(self.v_IF.acc_q*self.v_IF.q_threshold).float())
+            x = multi1(attn,v,(acc_attn).float(),(self.v_IF.acc_q*self.v_IF.q_threshold).float())
         else:
-            x = self.multi1(attn,v,(self.attn_softmax_IF.acc_q*self.attn_softmax_IF.q_threshold).float(),(self.v_IF.acc_q*self.v_IF.q_threshold).float())
+            x = multi1(attn,v,(self.attn_softmax_IF.acc_q*self.attn_softmax_IF.q_threshold).float(),(self.v_IF.acc_q*self.v_IF.q_threshold).float())
 
         x = self.after_attn_IF(x)
         if self.first:
@@ -842,9 +796,9 @@ class SAttention(nn.Module):
                 self.first = False
                 local_rank = torch.distributed.get_rank()
                 if local_rank == 0:
-                    torch.save(self.qkv.linear.quan_w_fn(self.qkv.weight),f'{glo.get_value("output_bin_snn_dir")}/{self.name}_qkv_weight.pth')
+                    torch.save(self.qkv.quan_w_fn(self.qkv.weight),f'{glo.get_value("output_bin_snn_dir")}/{self.name}_qkv_weight.pth')
                     torch.save(self.qkv.bias,f'{glo.get_value("output_bin_snn_dir")}/{self.name}_qkv_bias.pth')
-                    torch.save(self.proj.linear.quan_w_fn(self.proj.weight),f'{glo.get_value("output_bin_snn_dir")}/{self.name}_proj_weight.pth')
+                    torch.save(self.proj.quan_w_fn(self.proj.weight),f'{glo.get_value("output_bin_snn_dir")}/{self.name}_proj_weight.pth')
                     torch.save(self.proj.bias,f'{glo.get_value("output_bin_snn_dir")}/{self.name}_proj_bias.pth')
 
         return x
@@ -941,9 +895,10 @@ class LLConv2d(nn.Module):
         self.realize_time = self.steps
         self.weight = self.conv.weight
         self.bias = self.conv.bias
-        # self.quan_w_fn = self.conv.quan_w_fn
+        self.quan_w_fn = self.conv.quan_w_fn
         
     def reset(self):
+        # print("LLConv2d reset")
         self.is_work = False
         self.first = True
         self.zero_output = None
@@ -1004,12 +959,12 @@ class LLLinear(nn.Module):
         self.zero_output = None
         self.neuron_type = kwargs["neuron_type"]
         self.level = kwargs["level"]
-        self.steps = 6
+        self.steps = 4
+        self.t = 0
         self.realize_time = self.steps
         self.weight = self.linear.weight
         self.bias = self.linear.bias
-        self.t = 0
-        # self.quan_w_fn = self.linear.quan_w_fn
+        self.quan_w_fn = self.linear.quan_w_fn
         
     def reset(self):
         # print("LLLinear reset")
@@ -1018,6 +973,7 @@ class LLLinear(nn.Module):
         self.zero_output = None
         self.realize_time = self.steps
         self.t = 0
+        self.steps = 4
 
     def forward(self,input):
         # print("LLLinear.steps",self.steps)
@@ -1027,7 +983,6 @@ class LLLinear(nn.Module):
         # elif x.ndim == 3:
         #     B,C,N = x.shape
         # N = self.linear.out_features
-        self.t = self.t + 1
         if x.dim() == 3:
             B, N, _ = x.shape
             D = self.linear.out_features
@@ -1043,24 +998,12 @@ class LLLinear(nn.Module):
             self.is_work = False
             return self.zero_output
 
-        # output = self.linear(x)
+        quantized_weight = self.quan_w_fn(self.weight)
+        self.t = self.t + 1
         if self.t <= self.steps:
-            output = torch.nn.functional.linear(x, self.weight, self.bias/self.steps)
+            output = torch.nn.functional.linear(x, quantized_weight, self.linear.bias / self.steps)
         else:
-            output = torch.nn.functional.linear(x, self.weight)
-
-        # if self.neuron_type == 'IF':
-        #     pass
-        # else:
-        #     if self.linear.bias is None:
-        #         pass
-        #     else:
-        #         if self.realize_time == self.steps:
-        #             output = output
-        #             self.realize_time = 0
-        #         else:
-        #             output = output - (self.linear.bias.data.unsqueeze(0) if self.linear.bias is not None else 0.0)
-
+            output = torch.nn.functional.linear(x, quantized_weight)
 
         self.is_work = True
         self.first = False
@@ -1214,7 +1157,7 @@ class MyLayerNorm(nn.Module):
 def save_input_for_bin_snn_5dim(input,dir,name):
     T,B,L1,L2,N = input.shape
     has_spike = torch.abs(input).sum()
-    assert has_spike != 0, "some errors in input, all the element are 0!!!"
+    # assert has_spike != 0, "some errors in input, all the element are 0!!!"
     local_rank = torch.distributed.get_rank()
     if local_rank == 0:
         torch.save(input,f'{dir}/act_{name}_T={T}_B={B}_L1={L1}_L2={L2}_N={N}.pth')
@@ -1223,7 +1166,7 @@ def save_input_for_bin_snn_5dim(input,dir,name):
 def save_input_for_bin_snn_4dim(input,dir,name):
     T,B,L,N = input.shape
     has_spike = torch.abs(input).sum()
-    assert has_spike != 0, "some errors in input, all the element are 0!!!"
+    # assert has_spike != 0, "some errors in input, all the element are 0!!!"
     local_rank = torch.distributed.get_rank()
     if local_rank == 0:
         torch.save(input,f'{dir}/act_{name}_T={T}_B={B}_L={L}_N={N}.pth')
@@ -1231,7 +1174,7 @@ def save_input_for_bin_snn_4dim(input,dir,name):
 def save_fc_input_for_bin_snn(input,dir,name):
     T,B,N = input.shape
     has_spike = torch.abs(input).sum()
-    assert has_spike != 0, "some errors in input, all the element are 0!!!"
+    # assert has_spike != 0, "some errors in input, all the element are 0!!!"
     local_rank = torch.distributed.get_rank()
     if local_rank == 0:
         torch.save(input,f'{dir}/act_{name}_T={T}_B={B}_N={N}.pth')

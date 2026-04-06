@@ -500,9 +500,14 @@ def main(args):
         else:
             if not args.elastic:
                 args.mode = "QANN"
+                print("====================QANN Accuracy Evaluation====================")
                 test_stats = evaluate(data_loader_val, model_qann, device, "QANN", args)
 
             args.mode = "SNN"
+            if not args.elastic:
+                print("====================SNN Accuracy Evaluation====================")
+            else:
+                print("====================Elastic SNN Accuracy Evaluation====================")
             test_stats = evaluate(data_loader_val, model, device, "SNN", args)
         # print(f"Accuracy of the network on the {len(dataset_val)} test images: {test_stats['acc1']:.1f}%")
         # for k, v in test_stats.items():
