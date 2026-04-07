@@ -671,18 +671,27 @@ class IntegerSNNWarapperElastic(nn.Module):
         # 统计平均早退的 time-step（只对首次达到阈值的样本计数）
         self.early_exit_timestep_sum = 0  # 累计早退发生的时间步之和（1-based）
         self.early_exit_timestep_cnt = 0  # 累计早退样本数
+
+        self.latency_per_time_resnet18 = [0.7064, 0.9316, 1.1298, 1.3087, 1.4728, 1.6217, 1.7519, 1.8157, 1.8546,
+        1.8753, 1.8852, 1.8885, 1.8899, 1.8902, 1.8902, 1.8902]
         
-        self.latency_per_time = [0.9266, 1.4139, 1.7989, 2.0959, 2.3306, 2.5218, 2.6953, 2.8463, 2.9559,
+        self.latency_per_time_resnet34 = [0.8115, 1.3096, 1.5560, 1.7598, 1.9486, 2.1230, 2.2625, 2.3792, 2.4683,
+        2.5243, 2.5564, 2.5876, 2.6165, 2.6419, 2.6606, 2.6699, 2.6747, 2.6774,
+        2.6775, 2.6775, 2.6775, 2.6775, 2.6775, 2.6775]
+
+        self.latency_per_time_resnet50 = [0.9266, 1.4139, 1.7989, 2.0959, 2.3306, 2.5218, 2.6953, 2.8463, 2.9559,
         3.0360, 3.1093, 3.1744, 3.2320, 3.2769, 3.3117, 3.3325, 3.3501, 3.3667,
         3.3810, 3.3921, 3.3997, 3.4062, 3.4114, 3.4131]
 
-        # avg: 2.33 mismatch: 2.67%
-        
-        acc_list = [
-            0.126, 1.886, 10.122, 19.522, 29.893, 40.401, 50.957, 60.137,
-            66.819, 71.269, 73.671, 75.116, 75.670, 75.928, 75.958, 75.764,
-            75.674, 75.540, 75.364, 75.122, 74.987, 74.897, 74.851, 74.857,
-        ]
+        _latency_by_model = {
+            "resnet18": self.latency_per_time_resnet18,
+            "resnet34": self.latency_per_time_resnet34,
+            "resnet50": self.latency_per_time_resnet50,
+        }
+        _latency_by_model["resnet101"] = self.latency_per_time_resnet50
+        for _name in ("resnet12", "resnet20", "mobilenetv2", "vgg16"):
+            _latency_by_model[_name] = self.latency_per_time_resnet18
+        self.latency_per_time = _latency_by_model.get(modelName, self.latency_per_time_resnet18)
 
         self.total_latency = 0.0
         self.sample_count = 0
@@ -691,6 +700,15 @@ class IntegerSNNWarapperElastic(nn.Module):
 
     def reset(self):
         reset_function(self.model)
+
+    def _elastic_latency_at_step(self, step_1based):
+        """按当前模型选用的 latency 表，取第 step_1based 步（1-based）的累计延迟；越界则夹紧到表端点。"""
+        t = self.latency_per_time
+        if not t:
+            return 0.0
+        i = step_1based - 1
+        i = max(0, min(i, len(t) - 1))
+        return t[i]
 
     def forward(self, x, verbose: bool = False):
         accu = None
@@ -763,8 +781,8 @@ class IntegerSNNWarapperElastic(nn.Module):
                     self.early_exit_timestep_sum / self.early_exit_timestep_cnt
                     if self.early_exit_timestep_cnt > 0 else 0.0
                 )
-                self.total_latency = self.total_latency + self.latency_per_time[early_step - 1]
-                
+                self.total_latency = self.total_latency + self._elastic_latency_at_step(early_step)
+
                 print_str = f"IntegerSNNWarapperElastic mismatch rate: {mismatch_rate:.6f} " \
                     f"({self.mismatch_num}/{self.mismatch_den}), " \
                     f"avg early-exit time-step: {avg_early_step:.4f} " \
@@ -772,7 +790,7 @@ class IntegerSNNWarapperElastic(nn.Module):
                     f"early prediction: {early_pred.item()} " \
                     f"early time-step: {early_step} "
             else:
-                self.total_latency = self.total_latency + self.latency_per_time[-1]
+                self.total_latency = self.total_latency + self._elastic_latency_at_step(self.max_timestep)
                 print_str = f""
             print(print_str + f"avg latency: {self.total_latency/self.sample_count:.4f} ")
         else:
@@ -784,17 +802,19 @@ class IntegerSNNWarapperElastic(nn.Module):
                     self.early_exit_timestep_sum / self.early_exit_timestep_cnt
                     if self.early_exit_timestep_cnt > 0 else 0.0
                 )
-                self.total_latency = self.total_latency + self.latency_per_time[early_step - 1]
+                self.total_latency = self.total_latency + self._elastic_latency_at_step(early_step)
                 print_str = f"avg early-exit time-step: {avg_early_step:.4f} "
             else:
-                self.total_latency = self.total_latency + self.latency_per_time[-1]
+                self.total_latency = self.total_latency + self._elastic_latency_at_step(self.max_timestep)
                 print_str = f""
-            print(print_str + f"avg latency: {self.total_latency/self.sample_count:.4f} ")
+            print(print_str + f"full inference latency: {self.latency_per_time[-1]}ms -> elastic inference latency: {self.total_latency/self.sample_count:.4f}ms \n Latency Reduction = {1 - self.total_latency/(self.sample_count * self.latency_per_time[-1]):.4f}")
 
         if verbose:
             return accu, accu_list
         else:
             return accu
+
+
 
 def save_for_bin_snn(model,dir):
     children = list(model.named_modules())

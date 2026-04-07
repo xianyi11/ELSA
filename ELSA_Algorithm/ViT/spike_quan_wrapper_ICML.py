@@ -356,7 +356,7 @@ class SNNWrapper(nn.Module):
         self.latency_cnt += 1
         avg_step = self.early_exit_timestep_sum / self.early_exit_timestep_cnt
         avg_latency = self.latency_sum / self.latency_cnt
-        print(f"[SNNWrapper] avg early-exit timestep: {avg_step:.4f}, avg latency: {avg_latency:.4f}")
+        print(f"[SNNWrapper] avg early-exit timestep: {avg_step:.4f}, elastic inference latency: {avg_latency:.4f}, full inference latency: {self.latency_list[-1]:.4f}, latency reduction: {(1 - avg_latency / self.latency_list[-1]) * 100:.2f}%")
         if self.visualize:
             self.get_mid_feature()
             torch.save(self.feature_list,"model_blocks11_norm2.pth")
