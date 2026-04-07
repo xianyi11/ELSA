@@ -16,7 +16,7 @@ Follow the on-screen instructions to complete the installation.
 
 ### 2. Set up the ELSA Conda Environment
 
-Download the ELSA Conda environment from the provided link (ELSA.tar.gz) and extract it:
+Download the ELSA Conda environment from the provided link [ELSA.tar.gz](https://zenodo.org/records/19446695) and extract it:
 
 ```bash
 mkdir -p ~/anaconda3/envs/ELSA
