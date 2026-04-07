@@ -9,11 +9,9 @@ The simulator supports two execution modes:
 
 ### 1. Obtain the Quantized Model Checkpoint
 
-Download the checkpoint from the following Zenodo record:
+> Noticing: You should finish the step-3 in experiment setup.
 
-https://zenodo.org/records/19446695
-
-After downloading, place the model files in the directory specified in:
+After downloading, the model path are specified in:
 
 `~\ELSA_Simulator\convolution\configs\elsa_models.yaml`
 
