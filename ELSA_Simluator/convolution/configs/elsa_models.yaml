@@ -3,7 +3,7 @@
 
 models:
   resnet50:
-    datapath: "/data/user/output_bin_snn_resnet50_w4_a3_T16/"
+    datapath: "../model_pool/output_bin_snn_resnet50_w4_a3_T16/"
     data_subdir: "datas/ResNet50_data"
     connection: "ResNet50_Connection_Last.pth"
     mapping: "Final_MeshMapping_ResNet50.pth"
@@ -14,7 +14,7 @@ models:
     runner_callable: "run_resnet50_vary_t"
 
   resnet18:
-    datapath: "/data/user/output_bin_snn_resnet18_w4_a4_T16/"
+    datapath: "../model_pool/output_bin_snn_resnet18_w4_a4_T16/"
     data_subdir: "datas/ResNet18_data"
     connection: "ResNet18_Connection_Last.pth"
     mapping: "Final_MeshMapping_ResNet18.pth"
@@ -25,7 +25,7 @@ models:
     runner_callable: "run_resnet18_vary_t"
 
   resnet34:
-    datapath: "/data/user/output_bin_snn_resnet34_w4_a4_T24_ISCA/"
+    datapath: "../model_pool/output_bin_snn_resnet34_w4_a4_T24_ISCA/"
     data_subdir: "datas/ResNet34_data"
     connection: "ResNet34_Connection_Last.pth"
     mapping: "Final_MeshMapping_ResNet34.pth"
@@ -36,7 +36,7 @@ models:
     runner_callable: "run_resnet34_vary_t"
 
   resnet101:
-    datapath: "/data/user/output_bin_snn_resnet101_w4_a4_T28/"
+    datapath: "../model_pool/output_bin_snn_resnet101_w4_a4_T28/"
     data_subdir: "datas/ResNet101_data"
     connection: "ResNet101_Connection_Last.pth"
     mapping: "Final_MeshMapping_ResNet101.pth"
@@ -47,7 +47,7 @@ models:
     runner_callable: "run_resnet101_vary_t"
 
   vgg16_cifar10:
-    datapath: "/data/user/output_bin_snn_vgg16_cifar10_w4_a4_T16/"
+    datapath: "../model_pool/output_bin_snn_vgg16_cifar10_w4_a4_T16/"
     data_subdir: "datas/VGG16_CIFAR10_data"
     connection: "VGG16_Connection_Last.pth"
     mapping: "Final_MeshMapping_VGG16_CIFAR10.pth"
@@ -58,7 +58,7 @@ models:
     runner_callable: "run_vgg16_cifar10_vary_t"
 
   vgg16_cifar100:
-    datapath: "/data/user/output_bin_snn_vgg16_cifar100_w4_a4_T16/"
+    datapath: "../model_pool/output_bin_snn_vgg16_cifar100_w4_a4_T16/"
     data_subdir: "datas/VGG16_CIFAR10_data"
     connection: "VGG16_Connection_Last.pth"
     mapping: "Final_MeshMapping_VGG16_CIFAR10.pth"
@@ -69,7 +69,7 @@ models:
     runner_callable: "run_vgg16_cifar100_vary_t"
 
   vgg16_cifar10dvs:
-    datapath: "/data/user/output_bin_snn_vgg16_cifar10dvs_w4_a5_T32/"
+    datapath: "../model_pool/output_bin_snn_vgg16_cifar10dvs_w4_a5_T32/"
     data_subdir: "datas/VGG16_CIFAR10_data"
     connection: "VGG16_Connection_Last.pth"
     mapping: "Final_MeshMapping_VGG16_CIFAR10.pth"

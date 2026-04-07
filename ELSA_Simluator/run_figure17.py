@@ -484,7 +484,7 @@ def main() -> None:
     parser.add_argument(
         "--out-pdf",
         type=Path,
-        default=ROOT / "SNN_benchMark_Comparison.pdf",
+        default=ROOT / "SNN_benchMark_Comparison.png",
         help="Output PDF path",
     )
     parser.add_argument(

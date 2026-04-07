@@ -3,7 +3,7 @@
 
 models:
   vit_small:
-    datapath: "/home/user/SpikeZIP_transformer/output/T-SNN_vit_small_patch16_imagenet_relu_SNN_act14_weightbit4/output_bin_snn_vit_small_patch16_w4_a3_T32/"
+    datapath: "../model_pool/output_bin_snn_vit_small_patch16_w4_a3_T32/"
     data_subdir: "datas/ViT_small_data"
     connection: "ViT_Connection_Last.pth"
     mapping: "Final_MeshMapping.pth"

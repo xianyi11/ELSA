@@ -36,6 +36,8 @@ if __name__ == "__main__":
     parser.add_argument('--dataset', default="imagenet", type=str, help='dataset name')
     parser.add_argument('--output_per_timestep', action='store_true', default=False, help='output accuracy per time-step')
     parser.add_argument('--elastic', action='store_true', default=False, help='use elastic SNN')
+    parser.add_argument('--record_inout', action='store_true', default=False,
+                        help='dump SNN/QANN binary inputs-outputs (output_bin_snn_dir, layer tensors)')
     args=parser.parse_args()
     
     misc.init_distributed_mode(args)
@@ -137,14 +139,16 @@ if __name__ == "__main__":
     f.close()
 
     glo._init()
+    glo.set_value("record_inout", args.record_inout)
 
-    output_bin_qann_dir = f"/data1/user/output_bin_qann_{args.model}_w{args.WeightBit}_a{args.ActBit}/"
-    
-    if args.rank == 0:
-        if not os.path.exists(output_bin_qann_dir):
-            os.mkdir(output_bin_qann_dir)
-        glo.set_value("output_bin_qann_dir",output_bin_qann_dir)
-        save_for_bin(model, output_bin_qann_dir)
+    if args.record_inout:
+        output_bin_qann_dir = f"/data1/user/output_bin_qann_{args.model}_w{args.WeightBit}_a{args.ActBit}/"
+        
+        if args.rank == 0:
+            if not os.path.exists(output_bin_qann_dir):
+                os.mkdir(output_bin_qann_dir)
+            glo.set_value("output_bin_qann_dir",output_bin_qann_dir)
+            save_for_bin(model, output_bin_qann_dir)
 
     if not args.elastic:
         stats = evaluate(data_loader_val,model,device)
@@ -165,20 +169,21 @@ if __name__ == "__main__":
     calOrder = []
     set_snn_save_name(model,calOrder)
     
-    # output_bin_snn_dir = f"/data1/user/output_bin_snn_{args.model}_w{args.WeightBit}_a{args.ActBit}_T{args.maxTimeStep}/"
-    # if args.rank == 0:
-    #     if not os.path.exists(output_bin_snn_dir):
-    #         os.mkdir(output_bin_snn_dir)
-    #     glo.set_value("output_bin_snn_dir",output_bin_snn_dir)
+    if args.record_inout:
+        output_bin_snn_dir = f"/data1/user/output_bin_snn_{args.model}_w{args.WeightBit}_a{args.ActBit}_T{args.maxTimeStep}/"
+        if args.rank == 0:
+            if not os.path.exists(output_bin_snn_dir):
+                os.mkdir(output_bin_snn_dir)
+            glo.set_value("output_bin_snn_dir", output_bin_snn_dir)
 
-    # if args.rank == 0:
-    #     save_for_bin_snn(model,output_bin_snn_dir)
+        if args.rank == 0:
+            save_for_bin_snn(model, output_bin_snn_dir)
 
-    # if args.rank == 0:
-    #     f = open(f"{output_bin_snn_dir}/calculationOrder.txt","w+")
-    #     for order in calOrder:
-    #         f.write(order+"\n")
-    #     f.close()
+        if args.rank == 0:
+            f = open(f"{output_bin_snn_dir}/calculationOrder.txt", "w+")
+            for order in calOrder:
+                f.write(order + "\n")
+            f.close()
     
     # # torch.distributed.barrier()
     # print(model)

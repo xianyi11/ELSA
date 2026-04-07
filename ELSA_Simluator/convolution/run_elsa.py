@@ -109,6 +109,18 @@ def main() -> None:
     paths = resolve_data_paths(entry, ELSA_CONV_ROOT)
 
     datapath = args.datapath or entry["datapath"]
+    dp = Path(datapath)
+    if not dp.is_absolute():
+        # Configs use paths relative to convolution root.
+        dp = (ELSA_CONV_ROOT / dp).resolve()
+    # Many exported zips contain a single top-level folder with the same name.
+    # If user points at the outer folder, auto-enter that inner folder.
+    if dp.is_dir():
+        has_act_files = any(dp.glob("act_*"))
+        children = [p for p in dp.iterdir() if p.is_dir()]
+        if (not has_act_files) and len(children) == 1:
+            dp = children[0]
+    datapath = str(dp)
     connectionpath = args.connectionpath or paths["connectionpath"]
     mappingpath = args.mappingpath or paths["mappingpath"]
     occupyPath = args.occupyPath or paths["occupyPath"]

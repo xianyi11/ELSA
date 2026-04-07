@@ -470,7 +470,7 @@ def main() -> None:
     parser.add_argument(
         "--out",
         type=Path,
-        default=ROOT / "QANN_benchMark_Comparison_new.pdf",
+        default=ROOT / "QANN_benchMark_Comparison_new.png",
         help="Output image path (.pdf or .png)",
     )
     args = parser.parse_args()

@@ -26,6 +26,26 @@ source ~/anaconda3/envs/ELSA/bin/activate
 
 This will activate the ELSA environment containing all dependencies required for running the artifact.
 
+
+### 3. Download the checkpoints for algorithm and hardware evaluation
+
+3.1 Download the model checkpoint for SNN accuracy and ELSA performance evaluation with url:
+
+[Checkpoints.zip](https://zenodo.org/records/19446695)
+
+3.2 Unzip the Checkpoints.zip and get two directories:
+
+> Algorithm_Evaluator
+
+> Hardware_Simulator
+
+3.3 Put the files in `Algorithm_Evaluator` to  `~/ELSA_Algorithm/model_pool`.
+
+3.4 Put the files in `Hardware_Simulator` to  `~/ELSA_Simluator/model_pool`, and then run `~/ELSA_Simluator/model_pool/extract_all.sh`.
+
+After these steps, we have prepared the checkpoints for ELSA evaluation.
+
+
 ## ELSA Algorithm
 This module evaluates the accuracy of SNNs at each time-step, as well as the accuracy and latency of elastic inference.
 
@@ -57,18 +77,18 @@ This part mainly evaluates the accuracy of the VGG16 model on CIFAR-10 and CIFAR
 
 ##### VGG16 on CIFAR-10
 
-Run the following script:
+Go to the directory `~/ELSA_Algorithm/VGG` and Run the following script:
 
 ```bash
-bash  ~/ELSA_Algorithm/VGG/run_snn_bn_vgg16_cifar10.sh
+bash run_snn_bn_vgg16_cifar10.sh
 ```
 
 ##### VGG16 on CIFAR-100
 
-Run the following script:
+Go to the directory `~/ELSA_Algorithm/VGG` and run the following script:
 
 ```bash
-bash ~/ELSA_Algorithm/VGG/run_snn_bn_vgg16_cifar100.sh
+bash run_snn_bn_vgg16_cifar100.sh
 ```
 
 ####  2. ResNet
@@ -77,30 +97,30 @@ This part mainly evaluates the accuracy of ResNet18, ResNet34, and ResNet50 on I
 
 ### Full Inference
 
-Run the following scripts:
+Go to the directory `~/ELSA_Algorithm/ResNet` and run the following scripts:
 
 ```bash
-bash ~/ELSA_Algorithm/ResNet/run_snn_bn_resnet18.sh
-bash ~/ELSA_Algorithm/ResNet/run_snn_bn_resnet34.sh
-bash ~/ELSA_Algorithm/ResNet/run_snn_bn_resnet50.sh
+bash run_snn_bn_resnet18.sh
+bash run_snn_bn_resnet34.sh
+bash run_snn_bn_resnet50.sh
 ```
 
 ##### Elastic Inference
 
-Run the following scripts:
+Go to the directory `~/ELSA_Algorithm/ResNet` and run the following scripts:
 ```bash
-bash ~/ELSA_Algorithm/ResNet/run_snn_bn_resnet18_elastic.sh
-bash ~/ELSA_Algorithm/ResNet/run_snn_bn_resnet34_elastic.sh
-bash ~/ELSA_Algorithm/ResNet/run_snn_bn_resnet50_elastic.sh
+bash run_snn_bn_resnet18_elastic.sh
+bash run_snn_bn_resnet34_elastic.sh
+bash run_snn_bn_resnet50_elastic.sh
 ```
 
 3. Vision Transformer
 ##### Full Inference
 
-Run the following script:
+Go to the directory `~/ELSA_Algorithm/ViT` and run the following script:
 
 ```bash
-bash ~/ELSA_Algorithm/ViT/scripts/vit-small_SNN_16.sh
+bash ./scripts/vit-small_SNN_16.sh
 ```
 
 ##### Elastic Inference
@@ -108,7 +128,7 @@ bash ~/ELSA_Algorithm/ViT/scripts/vit-small_SNN_16.sh
 Run the following script:
 
 ```bash
-bash ~/ELSA_Algorithm/ViT/scripts/vit-small_SNN_16_elastic.sh
+bash ./scripts/vit-small_SNN_16_elastic.sh
 ```
 
 
@@ -128,11 +148,9 @@ The simulator supports two execution modes:
 
 ### 1. Obtain the Quantized Model Checkpoint
 
-Download the checkpoint from the following Zenodo record:
+> Noticing: You should finish the step-3 in experiment setup.
 
-https://zenodo.org/records/19446695
-
-After downloading, place the model files in the directory specified in:
+After downloading, the model path are specified in:
 
 `~\ELSA_Simulator\convolution\configs\elsa_models.yaml`
 

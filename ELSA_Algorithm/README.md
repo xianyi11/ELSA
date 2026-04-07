@@ -26,18 +26,18 @@ This part mainly evaluates the accuracy of the VGG16 model on CIFAR-10 and CIFAR
 
 ### VGG16 on CIFAR-10
 
-Run the following script:
+Go to the directory `~/ELSA_Algorithm/VGG` and Run the following script:
 
 ```bash
-bash  ~/ELSA_Algorithm/VGG/run_snn_bn_vgg16_cifar10.sh
+bash run_snn_bn_vgg16_cifar10.sh
 ```
 
 ### VGG16 on CIFAR-100
 
-Run the following script:
+Go to the directory `~/ELSA_Algorithm/VGG` and run the following script:
 
 ```bash
-bash ~/ELSA_Algorithm/VGG/run_snn_bn_vgg16_cifar100.sh
+bash run_snn_bn_vgg16_cifar100.sh
 ```
 
 ##  2. ResNet
@@ -46,30 +46,30 @@ This part mainly evaluates the accuracy of ResNet18, ResNet34, and ResNet50 on I
 
 ### Full Inference
 
-Run the following scripts:
+Go to the directory `~/ELSA_Algorithm/ResNet` and run the following scripts:
 
 ```bash
-bash ~/ELSA_Algorithm/ResNet/run_snn_bn_resnet18.sh
-bash ~/ELSA_Algorithm/ResNet/run_snn_bn_resnet34.sh
-bash ~/ELSA_Algorithm/ResNet/run_snn_bn_resnet50.sh
+bash run_snn_bn_resnet18.sh
+bash run_snn_bn_resnet34.sh
+bash run_snn_bn_resnet50.sh
 ```
 
 ### Elastic Inference
 
-Run the following scripts:
+Go to the directory `~/ELSA_Algorithm/ResNet` and run the following scripts:
 ```bash
-bash ~/ELSA_Algorithm/ResNet/run_snn_bn_resnet18_elastic.sh
-bash ~/ELSA_Algorithm/ResNet/run_snn_bn_resnet34_elastic.sh
-bash ~/ELSA_Algorithm/ResNet/run_snn_bn_resnet50_elastic.sh
+bash run_snn_bn_resnet18_elastic.sh
+bash run_snn_bn_resnet34_elastic.sh
+bash run_snn_bn_resnet50_elastic.sh
 ```
 
 3. Vision Transformer
 ### Full Inference
 
-Run the following script:
+Go to the directory `~/ELSA_Algorithm/ViT` and run the following script:
 
 ```bash
-bash ~/ELSA_Algorithm/ViT/scripts/vit-small_SNN_16.sh
+bash ./scripts/vit-small_SNN_16.sh
 ```
 
 ### Elastic Inference
@@ -77,6 +77,6 @@ bash ~/ELSA_Algorithm/ViT/scripts/vit-small_SNN_16.sh
 Run the following script:
 
 ```bash
-bash ~/ELSA_Algorithm/ViT/scripts/vit-small_SNN_16_elastic.sh
+bash ./scripts/vit-small_SNN_16_elastic.sh
 ```
 
