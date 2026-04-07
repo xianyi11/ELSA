@@ -69,7 +69,7 @@ The corresponding checkpoints are provided at the following link:
 | VGG16 | CIFAR-100 | 73.94 | 73.85 | N/A |N/A |
 | ResNet18 | ImageNet | 67.611 | 67.537 | 67.27 (confidence threshold=0.3) | 14.76% |
 | ResNet34 | ImageNet | 71.512 | 71.558 | 68.36 (confidence threshold=0.3) | 23.31% |
-| ResNet50 | ImageNet | 74.776 | 74.776 | 73.40 (confidence threshold=0.3) | 19.90% |
+| ResNet50 | ImageNet | 74.842 | 74.776 | 73.40 (confidence threshold=0.3) | 19.90% |
 | ViT | ImageNet | 78.398 | 78.66 | 78.39 (confidence threshold=0.8) | 11.50% |
 
 #### 1. VGG16
