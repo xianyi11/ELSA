@@ -7,7 +7,7 @@ This project evaluates the accuracy of the SNN models used in ELSA, as well as t
 We evaluate multiple SNN models on **ImageNet**, **CIFAR-10**, and **CIFAR-100**.  
 The corresponding checkpoints are provided at the following link:
 
-**Checkpoint Download Link:** [Insert the download link here]
+**Checkpoint Download Link:** https://zenodo.org/records/19446695
 
 ## Reported Accuracy
 
