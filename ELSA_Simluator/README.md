@@ -11,7 +11,7 @@ The simulator supports two execution modes:
 
 Download the checkpoint from the following Zenodo record:
 
-https://zenodo.org/records/19442853
+https://zenodo.org/records/19446695
 
 After downloading, place the model files in the directory specified in:
 
