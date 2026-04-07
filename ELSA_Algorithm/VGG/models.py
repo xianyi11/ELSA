@@ -186,8 +186,8 @@ class QuanInferAvgPool(t.nn.Module):
 
         # *self.m.kernel_size*self.m.kernel_size
     def forward(self,x):
-        if self.first:
-            save_input_for_bin(x[0].unsqueeze(0), glo.get_value("output_bin_qann_dir"),self.name+"in")        
+        if glo.get_value("record_inout") and self.first:
+            save_input_for_bin(x[0].unsqueeze(0), glo.get_value("output_bin_qann_dir"), self.name + "in")
 
         # print("Infer: pooling",self.m.m(x).mean())
         # print("Infer: quantized pooling",((float(self.M)/float(2**self.N))*self.m.m(x))[0:4,0,0,:])
@@ -196,9 +196,9 @@ class QuanInferAvgPool(t.nn.Module):
         # print("Infer: quantized output",x[0:4,0,0,:])
         # print("Infer: quantized output",x.mean())
 
-        if self.first:
+        if glo.get_value("record_inout") and self.first:
             self.first = False
-            save_input_for_bin(x[0].unsqueeze(0), glo.get_value("output_bin_qann_dir"),self.name+"out")
+            save_input_for_bin(x[0].unsqueeze(0), glo.get_value("output_bin_qann_dir"), self.name + "out")
         # print("Infer AvgPool output:", x.abs()[0,0,0,:])
         
         return x
@@ -441,8 +441,8 @@ class QuanInferConv2dFuseBN(t.nn.Conv2d):
         if self.is_first:
             x = self.m.quan_a_fn(x)/self.m.quan_a_fn.s
         input = x + 0.0
-        if self.first:
-            save_input_for_bin(x[0].unsqueeze(0), glo.get_value("output_bin_qann_dir"),self.name+"in")        
+        if glo.get_value("record_inout") and self.first:
+            save_input_for_bin(x[0].unsqueeze(0), glo.get_value("output_bin_qann_dir"), self.name + "in")
         wx = self._conv_forward(x, self.weight,bias=None)
         # if self.is_first:
         #     print("infer conv:",((float(self.M)/float(2**self.N))*wx)[0,0,0,:])
@@ -454,9 +454,9 @@ class QuanInferConv2dFuseBN(t.nn.Conv2d):
         # if self.is_first:
         #     print("infer output:",x[0,0,0,:])
             # print("infer output:",torch.nn.functional.relu(x).mean())
-        if self.first:
+        if glo.get_value("record_inout") and self.first:
             self.first = False
-            save_input_for_bin(x[0].unsqueeze(0), glo.get_value("output_bin_qann_dir"),self.name+"out")
+            save_input_for_bin(x[0].unsqueeze(0), glo.get_value("output_bin_qann_dir"), self.name + "out")
         # print("infer output:",torch.abs(torch.nn.functional.relu(x)).mean())
         # print("infer output:", x.abs()[0,0,0,:])
         # print("===========================Inference Conv2d==================================")
@@ -567,14 +567,14 @@ class QuanInferConv2d(t.nn.Conv2d):
     def forward(self,x):
         if self.is_first:
             x = self.m.quan_a_fn(x)/self.m.quan_a_fn.s                              
-        if self.first:
-            save_input_for_bin(x[0].unsqueeze(0), glo.get_value("output_bin_qann_dir"),self.name+"in")        
+        if glo.get_value("record_inout") and self.first:
+            save_input_for_bin(x[0].unsqueeze(0), glo.get_value("output_bin_qann_dir"), self.name + "in")
         wx = torch.round((float(self.M)/float(2**self.N))*self._conv_forward(x, self.weight,bias=None))
         x = wx + self.bias.reshape(1,-1,1,1)
         x = torch.clip(x,max=self.thd_pos,min=self.thd_neg)
-        if self.first:
+        if glo.get_value("record_inout") and self.first:
             self.first = False
-            save_input_for_bin(x[0].unsqueeze(0), glo.get_value("output_bin_qann_dir"),self.name+"out")
+            save_input_for_bin(x[0].unsqueeze(0), glo.get_value("output_bin_qann_dir"), self.name + "out")
         return x
 
 
@@ -652,16 +652,16 @@ class QuanInferLinear(t.nn.Linear):
         self.s_b = m.quan_out_fn.s
     
     def forward(self,x):
-        if self.first:
-            save_fc_input_for_bin(x[0].unsqueeze(0), glo.get_value("output_bin_qann_dir"),self.name)
+        if glo.get_value("record_inout") and self.first:
+            save_fc_input_for_bin(x[0].unsqueeze(0), glo.get_value("output_bin_qann_dir"), self.name)
 
         # print("Linear infer output:",torch.abs(x).mean())
 
         out = torch.round((float(self.M)/float(2**self.N))*t.nn.functional.linear(x, self.weight)) + self.bias
         out = torch.clip(out,max=self.thd_pos,min=self.thd_neg)
-        if self.first:
+        if glo.get_value("record_inout") and self.first:
             self.first = False
-            save_fc_input_for_bin(out[0].unsqueeze(0), glo.get_value("output_bin_qann_dir"),self.name)
+            save_fc_input_for_bin(out[0].unsqueeze(0), glo.get_value("output_bin_qann_dir"), self.name)
 
         # print("===========================Inference Linear==================================")
         # print("infer input int:", x.abs().mean())

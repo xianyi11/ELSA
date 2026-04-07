@@ -43,7 +43,7 @@ class STBIFNeuron(nn.Module):
         self.accu = []
         self.accu1 = []
         self.accu2 = []
-        self.first = False
+        self.first = True
         self.name = name
 
     @staticmethod
@@ -77,7 +77,7 @@ class STBIFNeuron(nn.Module):
         #     if self.T == 32:
         #         print("SNN input",self.accu.mean())
         self.t = self.t + 1        
-        if self.first and self.outSpike:
+        if glo.get_value("record_inout") and self.first and self.outSpike:
             self.accu.append(input[0].unsqueeze(0)+0)
             if self.t == self.T:
                 save_input_for_bin_snn(torch.stack(self.accu), glo.get_value("output_bin_snn_dir"),self.name+".in")
@@ -165,7 +165,7 @@ class STBIFNeuron(nn.Module):
         #         print("quantized output",self.accu2.mean())
         
         # print("self.cur_output",self.cur_output)
-        if self.first and self.outSpike:
+        if glo.get_value("record_inout") and self.first and self.outSpike:
             self.accu1.append(self.cur_output[0].unsqueeze(0)+0)
             if self.t == self.T:
                 self.first = False
@@ -236,13 +236,13 @@ class SpikeInferAvgPool(t.nn.Module):
         self.t = 0
         self.accu = []
         self.accu1 = []
-        self.first = False
+        self.first = True
         self.spike = True
         self.name = name
            
     def forward(self,x):
         self.t = self.t + 1   
-        if self.first:
+        if glo.get_value("record_inout") and self.first:
             self.accu.append(x[0].unsqueeze(0)+0)
             if self.t == self.T:
                 save_input_for_bin_snn(torch.stack(self.accu), glo.get_value("output_bin_snn_dir"),self.name+".in")
@@ -251,7 +251,7 @@ class SpikeInferAvgPool(t.nn.Module):
         x = self.m.m.m(x)*self.kernel_size*self.kernel_size
         x = self.neuron(x)
 
-        if self.first:
+        if glo.get_value("record_inout") and self.first:
             self.accu1.append(x[0].unsqueeze(0)+0)
             if self.t == self.T:
                 self.first = False
@@ -272,14 +272,14 @@ class SpikeResidualAddNew(t.nn.Module):
         self.accu = []
         self.accu1 = []
         self.accu2 = []
-        self.first = False
+        self.first = True
         self.spike = True
         self.name = name
 
     def forward(self,input1,input2):
 
         self.t = self.t + 1        
-        if self.first:
+        if glo.get_value("record_inout") and self.first:
             self.accu.append(input1[0].unsqueeze(0)+0)
             self.accu2.append(input2[0].unsqueeze(0)+0)
             if self.t == self.T:
@@ -293,7 +293,7 @@ class SpikeResidualAddNew(t.nn.Module):
 
         output = self.neuron((input1,input2))
 
-        if self.first:
+        if glo.get_value("record_inout") and self.first:
             self.accu1.append(output[0].unsqueeze(0)+0)
             if self.t == self.T:
                 self.first = False
@@ -316,14 +316,14 @@ class SpikeResidualAdd(t.nn.Module):
         self.accu = []
         self.accu1 = []
         self.accu2 = []
-        self.first = False
+        self.first = True
         self.spike = True
         self.name = name
 
     def forward(self,input1,input2):
 
         self.t = self.t + 1        
-        if self.first:
+        if glo.get_value("record_inout") and self.first:
             self.accu.append(input1[0].unsqueeze(0)+0)
             self.accu2.append(input2[0].unsqueeze(0)+0)
             if self.t == self.T:
@@ -334,7 +334,7 @@ class SpikeResidualAdd(t.nn.Module):
 
         output = self.neuron(input1+input2)
 
-        if self.first:
+        if glo.get_value("record_inout") and self.first:
             self.accu1.append(output[0].unsqueeze(0)+0)
             if self.t == self.T:
                 self.first = False
@@ -365,14 +365,14 @@ class SpikeInferLinear(t.nn.Linear):
         self.t = 0
         self.accu = []
         self.accu1 = []
-        self.first = False
+        self.first = True
         self.name = name
         self.directlyOut = directlyOut
 
     def forward(self,x):        
 
         self.t = self.t + 1        
-        if self.first:
+        if glo.get_value("record_inout") and self.first:
             self.accu.append(x[0].unsqueeze(0)+0)
             if self.t == self.T:
                 save_fc_input_for_bin_snn(torch.stack(self.accu), glo.get_value("output_bin_snn_dir"),self.name+".in")
@@ -421,7 +421,7 @@ class SpikeInferConv2dFuseBN(t.nn.Conv2d):
         self.M = m.M
         self.N = m.N
         self.is_first = m.is_first
-        self.first = False
+        self.first = True
         if relu == True:
             self.neuron = STBIFNeuron(self.M,self.N, self.thd_pos, 0, self.bias)
         else:
@@ -435,7 +435,7 @@ class SpikeInferConv2dFuseBN(t.nn.Conv2d):
         
     def forward(self,x):
         self.t = self.t + 1
-        if self.first:
+        if glo.get_value("record_inout") and self.first:
             self.accu.append(x[0].unsqueeze(0)+0.0)
             # print(x[0].shape,x[0].abs().sum())
             if self.t == self.T:
@@ -447,7 +447,7 @@ class SpikeInferConv2dFuseBN(t.nn.Conv2d):
         wx = self._conv_forward(x, self.weight,bias=None)
         x = self.neuron(wx)
 
-        if self.first:
+        if glo.get_value("record_inout") and self.first:
             self.accu1.append(x[0].unsqueeze(0)+0)
             if self.t == self.T:
                 self.first = False

@@ -26,6 +26,27 @@ source ~/anaconda3/envs/ELSA/bin/activate
 
 This will activate the ELSA environment containing all dependencies required for running the artifact.
 
+
+### 3. Download the checkpoints for algorithm and hardware evaluation
+
+3.1 Download the model checkpoint for SNN accuracy and ELSA performance evaluation with url:
+
+[Checkpoints.zip](https://zenodo.org/records/19446695)
+
+3.2 Unzip the Checkpoints.zip and get two directories:
+
+> Algorithm_Evaluator
+
+> Hardware_Simulator
+
+3.3 Put the files in `Algorithm_Evaluator` to  `~/ELSA_Algorithm/model_pool`.
+
+3.4 Put the files in `Hardware_Simulator` to  `~/ELSA_Simluator/model_pool`, and then run `~/ELSA_Simluator/model_pool/extract_all.sh`.
+
+After these steps, we have prepared the checkpoints for ELSA evaluation.
+
+
+
 ## ELSA Algorithm
 This module evaluates the accuracy of SNNs at each time-step, as well as the accuracy and latency of elastic inference.
 

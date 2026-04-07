@@ -2,10 +2,10 @@ NCCL_P2P_DISABLE=1 OMP_NUM_THREADS=1 CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6 python -
     --accum_iter 4 \
     --batch_size 16 \
     --model vit_small_patch16 \
-    --finetune /data/user/SpikeZIP_transformer/T-SNN_vit_small_patch16_imagenet_relu_QANN_QAT_act14_weightbit4/checkpoint-78.40.pth \
-    --resume /data/user/SpikeZIP_transformer/T-SNN_vit_small_patch16_imagenet_relu_QANN_QAT_act14_weightbit4/checkpoint-78.40.pth \
+    --finetune ../model_pool/QANN-vit-small-14level.pth \
+    --resume ../model_pool/QANN-vit-small-14level.pth \
     --epochs 100 \
     --blr 3.536e-4 --layer_decay 0.65 \
     --weight_decay 0.05 --drop_path 0.1 --drop_rate 0.0 --mixup 0.8 --cutmix 1.0 --reprob 0.25 \
-    --dist_eval --data_path /data/ImageNet --output_dir /home/user/SpikeZIP_transformer/output/ --log_dir /home/user/SpikeZIP_transformer/output \
-    --mode "SNN" --act_layer relu --eval --time_step 32 --encoding_type rate --level 14 --record_inout --weight_quantization_bit 4 --define_params --mean 0.5 0.5 0.5 --std 0.5 0.5 0.5
+    --dist_eval --data_path /data/ImageNet --output_dir ./output/ --log_dir ./output \
+    --mode "SNN" --act_layer relu --eval --time_step 32 --encoding_type rate --level 14 --weight_quantization_bit 4 --define_params --mean 0.5 0.5 0.5 --std 0.5 0.5 0.5
