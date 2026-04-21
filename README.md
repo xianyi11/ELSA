@@ -1,8 +1,105 @@
-## Introduction
+# Introduction
 
 This repository contains the artifact submission for the paper ELSA accepted at ISCA 2026 (Paper ID: 124). The artifact supports reproducing the results presented in the paper, including evaluations of Spiking Neural Networks (SNNs) at each time-step and performance assessment of the ELSA accelerator.
 
-## Environment Setup
+
+## ELSA Artifact Evaluation with Docker image
+
+This document provides step-by-step instructions for reviewers to reproduce the main results using the provided Docker image.
+
+
+### 1. Download the Docker Image
+
+Please download the Docker image archive from the following link:
+
+**SwissTransfer Download Link**  
+https://www.swisstransfer.com/d/78528f19-a5a5-4b18-bb7a-d8078ba8724e
+
+- **Filename:** `ELSA.tar`
+- **Available until:** **May 21**
+- **CUDA Version:** **12.1**
+
+### 2. Verify File Integrity
+
+To ensure the downloaded file is complete and uncorrupted, please verify its MD5 checksum.
+
+#### Expected MD5
+
+```bash
+117e4ce424c954c4fced931a8f256130
+```
+
+### Run Verification
+```bash
+md5sum ELSA.tar
+```
+Please confirm that the output matches the expected checksum above.
+
+### 3. Load and Launch the Docker Container
+
+After uploading `ELSA.tar` to your server, run the following commands.
+
+#### 3.1 Load the Docker Image
+
+```bash
+docker load -i ELSA.tar
+```
+
+#### 3.2 Start the Container
+
+```bash
+docker run -it --gpus all --ipc=host --name ELSA elsa_image:1 /bin/bash
+```
+
+## 4. Activate the Conda Environment
+
+Inside the container, activate the prepared environment:
+
+```bash
+conda activate ELSA
+```
+
+## 5. Reproduce Paper Results
+
+### 5.1 Accuracy Results
+
+Run:
+```bash
+cd ~/ELSA/ELSA_Algorithm
+bash run_all.sh
+```
+
+#### Reported Accuracy
+
+| Model | Dataset | ANN Accuracy | SNN Accuracy | Elastic SNN Accuracy | Latency Reduction |
+|------|---------|--------------|--------------|----------------------|----------------------|
+| VGG16 | CIFAR-10 | 91.57 | 91.48 | N/A |N/A |
+| VGG16 | CIFAR-100 | 73.94 | 73.85 | N/A |N/A |
+| ResNet18 | ImageNet | 67.611 | 67.537 | 67.27 (confidence threshold=0.3) | 14.76% |
+| ResNet34 | ImageNet | 71.512 | 71.558 | 68.36 (confidence threshold=0.3) | 23.31% |
+| ResNet50 | ImageNet | 74.842 | 74.776 | 73.40 (confidence threshold=0.3) | 19.90% |
+| ViT | ImageNet | 78.398 | 78.66 | 78.39 (confidence threshold=0.8) | 11.50% |
+
+### 5.2 Figure 16 and Figure 17
+
+```bash
+cd ~/ELSA/ELSA_Simluator
+
+python3 run_figure16.py --cache-dir tracer_files --skip-sim
+
+python3 run_figure17.py --cache-dir tracer_files --skip-sim
+```
+
+#### Figure 16
+
+![Figure 16](./ELSA_Simluator/Figures/QANN_benchMark_Comparison.png)
+
+#### Figure 17
+
+![Figure 17](./ELSA_Simluator/Figures/SNN_benchMark_Comparison.png)
+
+
+## Manually Environment Setup from Scratch
 
 ### 1. Install Anaconda
 
